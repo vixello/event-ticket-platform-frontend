@@ -1,1 +1,41 @@
-<p>event-list works!</p>
+```html
+<section class="bg-white">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+
+    <!-- Page heading -->
+    <div class="mb-10">
+      <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-indigo-600">
+        Discover events
+      </p>
+
+      <h1 class="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+        Find your next experience
+      </h1>
+
+      <p class="mt-4 max-w-2xl text-lg text-slate-600">
+        Discover concerts, conferences, festivals and other events happening near you.
+      </p>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-8">
+      <app-event-search />
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-[240px_1fr]">
+
+      <!-- Filters -->
+      <aside>
+        <app-event-filters />
+      </aside>
+
+      <!-- Events -->
+      <div>
+        <app-event-grid />
+      </div>
+
+    </div>
+
+  </div>
+</section>
+```
