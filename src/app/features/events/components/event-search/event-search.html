@@ -1,1 +1,13 @@
-<p>event-search works!</p>
+```html
+<div class="flex flex-col gap-3 sm:flex-row">
+
+  <div class="join w-full">
+    <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="onSearch()" placeholder="Search events..."
+      class="input input-bordered join-item w-full" />
+
+    <button type="button" (click)="onSearch()" class="btn btn-primary join-item">
+      Search
+    </button>
+  </div>
+</div>
+```
