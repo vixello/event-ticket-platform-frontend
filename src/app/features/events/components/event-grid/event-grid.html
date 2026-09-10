@@ -1,1 +1,28 @@
-<p>event-grid works!</p>
+```html
+<div class="mb-6 flex items-center justify-between">
+  <div>
+    <h2 class="text-xl font-semibold text-slate-900">
+      Upcoming events
+    </h2>
+
+    <p class="mt-1 text-sm text-slate-500">
+      {{ events.length }} events found
+    </p>
+  </div>
+
+  <select
+    class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm"
+  >
+    <option>Sort: Recommended</option>
+    <option>Date: Soonest</option>
+    <option>Price: Low to high</option>
+    <option>Price: High to low</option>
+  </select>
+</div>
+
+<div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+  @for (event of events; track event.id) {
+    <app-event-card [event]="event" />
+  }
+</div>
+```
