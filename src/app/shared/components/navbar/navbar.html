@@ -1,1 +1,37 @@
-<p>navbar works!</p>
+<div class="navbar bg-base-100 border-b border-base-300">
+  <div class="navbar-start">
+    <a
+      routerLink="/events"
+      class="btn btn-ghost text-xl"
+    >
+      Eventify
+    </a>
+  </div>
+
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li>
+        <a routerLink="/events">Events</a>
+      </li>
+      <li>
+        <a>About</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="navbar-end gap-2">
+    <a
+      routerLink="/login"
+      class="btn btn-ghost"
+    >
+      Log in
+    </a>
+
+    <a
+      routerLink="/register"
+      class="btn btn-primary"
+    >
+      Sign up
+    </a>
+  </div>
+</div>
