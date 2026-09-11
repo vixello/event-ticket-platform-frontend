@@ -1,1 +1,38 @@
-<p>event-card works!</p>
+<a [routerLink]="['/events', event().id]"
+    class="card bg-base-100 border border-base-300 shadow-sm transition hover:-translate-y-1 hover:shadow-lg  hover:bg-base-200">
+    <div class="card-body">
+
+        <!-- TOP ROW: badge + date -->
+        <div class="flex items-center justify-between gap-3">
+            <div class="badge badge-primary">
+                {{ event().status }}
+            </div>
+
+            <span class="text-sm text-base-content/60">
+                {{ event().start | date:'mediumDate' }}
+            </span>
+        </div>
+
+        <!-- IMAGE: full width -->
+        <img
+            [src]="event().imageUrl || '/assets/placeholder.jpg'"
+            alt="{{ event().name }}"
+            class="w-full h-48 object-cover rounded-lg mt-3"
+        />
+
+        <h2 class="card-title mt-2">
+            {{ event().name }}
+        </h2>
+
+        <p class="text-base-content/60">
+            📍 {{ event().venue }}
+        </p>
+
+        <div class="card-actions justify-end">
+            <span class="btn btn-primary btn-sm">
+                View event
+            </span>
+        </div>
+
+    </div>
+</a>
