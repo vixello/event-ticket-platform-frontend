@@ -19,7 +19,7 @@
 
     <!-- Search -->
     <div class="mb-8">
-      <app-event-search />
+      <app-event-search (search)="onSearch($event)"/>
     </div>
 
     <div class="grid gap-8 lg:grid-cols-[240px_1fr]">
@@ -31,7 +31,7 @@
 
       <!-- Events -->
       <div>
-        <app-event-grid />
+        <app-event-grid  [events]="events"/>
       </div>
 
     </div>
