@@ -1,1 +1,73 @@
-<p>event-filters works!</p>
+<div class="card bg-base-100 border border-base-300 shadow-sm">
+  <div class="card-body">
+
+    <div class="flex items-center justify-between">
+      <h2 class="card-title text-lg">
+        Filters
+      </h2>
+
+      <button class="btn btn-ghost btn-xs">
+        Clear
+      </button>
+    </div>
+
+    <div class="divider my-1"></div>
+
+    <label class="form-control w-full">
+
+      <div class="flex gap-3 flex-wrap">
+        <!-- FROM -->
+        <div class="flex flex-col flex-1">
+          <div class="label">
+            <span class="label-text">From</span>
+          </div>
+          <input type="date" class="input input-bordered w-full" />
+        </div>
+
+        <!-- TO -->
+        <div class="flex flex-col flex-1">
+          <div class="label">
+            <span class="label-text">To</span>
+          </div>
+          <input type="date" class="input input-bordered w-full" />
+        </div>
+      </div>
+
+    </label>
+
+    <label class="form-control w-full">
+      <div class="label">
+        <span class="label-text">Location</span>
+      </div>
+
+      <input type="text" placeholder="City or venue" class="input input-bordered w-full" />
+    </label>
+
+    <div class="form-control">
+      <div class="label">
+        <span class="label-text">Category</span>
+      </div>
+
+      <label class="flex items-center gap-3 cursor-pointer py-1">
+        <input type="checkbox" class="checkbox checkbox-primary" />
+        <span class="label-text">Music</span>
+      </label>
+
+      <label class="flex items-center gap-3 cursor-pointer py-1">
+        <input type="checkbox" class="checkbox checkbox-primary" />
+        <span class="label-text">Sports</span>
+      </label>
+
+      <label class="flex items-center gap-3 cursor-pointer py-1">
+        <input type="checkbox" class="checkbox checkbox-primary" />
+        <span class="label-text">Business</span>
+      </label>
+
+      <label class="flex items-center gap-3 cursor-pointer py-1">
+        <input type="checkbox" class="checkbox checkbox-primary" />
+        <span class="label-text">Arts & Culture</span>
+      </label>
+    </div>
+
+  </div>
+</div>
