@@ -1,1 +1,58 @@
-<p>register-form works!</p>
+<div class="card bg-base-100 shadow-2xl w-full max-w-md">
+    <div class="card-body p-8">
+
+        <div class="text-center mb-6">
+            <h1 class="text-4xl font-bold text-primary">
+                Eventmaster
+            </h1>
+
+            <p class="text-base-content/70 mt-2">
+                Create your account
+            </p>
+        </div>
+
+        <form class="space-y-4" (ngSubmit)="onSubmit()">
+
+            <label class="form-control">
+                <span class="label-text mb-2">
+                    Email
+                </span>
+
+                <input type="email" name="email" [(ngModel)]="email" autocomplete="email" placeholder="you@example.com"
+                    class="input input-bordered w-full" required />
+            </label>
+
+            <label class="form-control">
+                <span class="label-text mb-2">
+                    Password
+                </span>
+
+                <input type="password" name="password" [(ngModel)]="password" autocomplete="new-password"
+                    placeholder="••••••••" class="input input-bordered w-full" required />
+            </label>
+
+            <label class="form-control">
+                <span class="label-text mb-2">
+                    Confirm password
+                </span>
+
+                <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" autocomplete="new-password"
+                    placeholder="••••••••" class="input input-bordered w-full" required />
+            </label>
+
+            <button type="submit" class="btn btn-primary w-full">
+                Create account
+            </button>
+
+        </form>
+
+        <div class="divider">
+            Already have an account?
+        </div>
+
+        <a routerLink="/login" class="btn btn-outline w-full">
+            Log in
+        </a>
+
+    </div>
+</div>
