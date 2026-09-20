@@ -9,12 +9,14 @@ import { RouterLink } from '@angular/router';
 })
 export class RegisterForm {
 
+  name = "";
   email = '';
   password = '';
   confirmPassword = '';
 
   onSubmit(): void {
     if (
+      !this.name ||
       !this.email ||
       !this.password ||
       !this.confirmPassword
