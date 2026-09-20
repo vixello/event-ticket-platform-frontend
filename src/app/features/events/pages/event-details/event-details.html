@@ -1,1 +1,21 @@
-<p>event-details works!</p>
+@if (event; as e) {
+
+  <div class="max-w-5xl mx-auto p-6">
+
+    <img
+      [src]="e.imageUrl"
+      [alt]="e.name"
+      class="w-full h-80 object-cover rounded-box"
+    />
+
+    <h1 class="text-4xl font-bold">
+      {{ e.name }}
+    </h1>
+
+    <p class="mt-4 text-base-content/70">
+      {{ e.start }}
+    </p>
+
+  </div>
+
+}
