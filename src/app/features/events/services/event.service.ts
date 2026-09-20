@@ -46,6 +46,10 @@ export class EventService {
         return this.events;
     }
 
+    getById(id: string): Event | undefined {
+        return this.events.find(e => e.id === id);
+    }
+
     searchEvents(searchQuery: String): Event[] {
         const normalizedQuery = searchQuery.toLowerCase();
 
@@ -55,7 +59,7 @@ export class EventService {
 
         return this.events.filter((event) =>
             event.name.toLowerCase().includes(normalizedQuery) ||
-            event.venue.toLowerCase().includes(normalizedQuery) 
+            event.venue.toLowerCase().includes(normalizedQuery)
         );
     }
 
