@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import Keycloak from 'keycloak-js';
 
 import { keycloakConfig } from './auth.config';
@@ -9,17 +9,18 @@ import { keycloakConfig } from './auth.config';
 export class AuthService {
 
     private readonly keycloak = new Keycloak(keycloakConfig);
+    private readonly authenticated = signal(false);
+    readonly isAuthenticated = this.authenticated.asReadonly();
 
     async init(): Promise<boolean> {
-        return this.keycloak.init({
+        const authenticated = await this.keycloak.init({
             onLoad: 'check-sso',
             pkceMethod: 'S256',
             redirectUri: window.location.origin,
         });
-    }
 
-    get isAuthenticated(): boolean {
-        return !!this.keycloak.authenticated;
+        this.authenticated.set(authenticated);
+        return authenticated;
     }
 
     get token(): string | undefined {
