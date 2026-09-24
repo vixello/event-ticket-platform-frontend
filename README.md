@@ -37,7 +37,7 @@
 <h3 align="center">Eventmaster</h3>
 
   <p align="center">
-    project_description
+    Event management and ticketing platform
     <br />
     <a href="https://github.com/vixello/event-ticket-platform-frontend"><strong>Explore the docs »</strong></a>
     <br />
@@ -90,7 +90,7 @@
 Organizers can create events, manage ticket sales, assign workers, and monitor event performance. Event staff can view assigned tasks, manage attendee check-ins, and support event operations. Attendees can discover events, purchase tickets, and access their booking history through a user-friendly interface.
 
 
-Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `vixello`, `event-ticket-platform-frontend`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `Eventmaster`, `project_description`, `project_license`
+Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `vixello`, `event-ticket-platform-frontend`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `Eventmaster`, `Event management and ticketing platform`, `project_license`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
