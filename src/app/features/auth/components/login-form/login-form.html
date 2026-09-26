@@ -11,41 +11,23 @@
             </p>
         </div>
 
-        <form class="space-y-4" (ngSubmit)="onSubmit()">
-
-            <label class="form-control">
-                <span class="label-text mb-2">Email</span>
-
-                <input type="email" name="email" [(ngModel)]="email" placeholder="you@example.com"
-                    class="input input-bordered w-full" />
-            </label>
-
-            <label class="form-control">
-                <span class="label-text mb-2">Password</span>
-
-                <input type="password" name="password" [(ngModel)]="password" placeholder="••••••••"
-                    class="input input-bordered w-full" />
-            </label>
-
-            <div class="text-right">
-                <a class="link link-hover text-sm">
-                    Forgot password?
-                </a>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-full">
-                Log in
-            </button>
-
-        </form>
+        <button
+            type="button"
+            class="btn btn-primary w-full"
+            (click)="authService.login()">
+            Log in
+        </button>
 
         <div class="divider">
             New here?
         </div>
 
-        <a routerLink="/register" class="btn btn-outline w-full">
+        <button
+            type="button"
+            class="btn btn-outline w-full"
+            (click)="authService.register()">
             Create account
-        </a>
+        </button>
 
     </div>
 </div>

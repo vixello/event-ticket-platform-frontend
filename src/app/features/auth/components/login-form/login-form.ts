@@ -9,7 +9,7 @@ import { AuthService } from '../../auth.service';
   templateUrl: './login-form.html',
 })
 export class LoginForm {
-  private readonly authService = inject(AuthService);
+  readonly authService = inject(AuthService);
 
   async onSubmit(): Promise<void> {
     await this.authService.login();
