@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../auth.service';
 
 @Component({
   imports: [FormsModule, RouterLink],
@@ -8,10 +9,9 @@ import { RouterLink } from '@angular/router';
   templateUrl: './login-form.html',
 })
 export class LoginForm {
-  email = ''
-  password = ''
+  private readonly authService = inject(AuthService);
 
-  onSubmit(): void {
-    console.log('Login attempt:', this.email);
+  async onSubmit(): Promise<void> {
+    await this.authService.login();
   }
 }
