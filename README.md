@@ -103,6 +103,7 @@ Here's a blank template to get started. To avoid retyping too much info, do a se
 [![TailwindCSS][Tailwind.io]][Tailwind-url]<br>
 [![DaisyUI][DaisyUI.io]][DaisyUI-url]<br>
 [![HTML5][HTML5.io]][HTML5-url]<br>
+[![Keycloak][Keycloak.io]][Keycloak-url]<br>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
