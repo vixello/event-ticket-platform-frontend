@@ -123,26 +123,36 @@ This is an example of how to list things you need to use the software and how to
   npm install npm@latest -g
   ```
 
-### Installation
+## Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repository
+
    ```sh
    git clone https://github.com/vixello/event-ticket-platform-frontend.git
    ```
-3. Install NPM packages
+
+2. Navigate to the project directory
+
+   ```sh
+   cd event-ticket-platform-frontend
+   ```
+
+3. Install dependencies
+
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-5. Change git remote url to avoid accidental pushes to base project
+
+4. Start the development server
+
    ```sh
-   git remote set-url origin vixello/event-ticket-platform-frontend
-   git remote -v # confirm the changes
+   ng serve
    ```
+
+5. Open your browser and navigate to
+
+   ```text
+   http://localhost:4200
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
