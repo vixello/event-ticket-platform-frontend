@@ -20,10 +20,10 @@ export class EventList {
     this.events = this.eventService.getEvents();
   };
 
-  fetchEvents() {
-    this.eventService.getEvents();
+  fetchEvents(): void {
+    this.events = this.eventService.getEvents();
   }
-  
+
   onSearch(searchQuery: String) {
     this.events = this.eventService.searchEvents(searchQuery);
   }
