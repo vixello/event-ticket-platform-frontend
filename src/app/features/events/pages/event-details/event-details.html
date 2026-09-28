@@ -3,7 +3,7 @@
 <div class="max-w-6xl mx-auto px-4 py-8">
 
   <div class="relative overflow-hidden rounded-3xl">
-    <img [src]="e.imageUrl" [alt]="e.name" class="w-full h-[450px] object-cover" />
+    <img [src]="event.imageUrl" [alt]="event.name" class="w-full h-[450px] object-cover" />
 
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent">
     </div>
@@ -14,11 +14,12 @@
       </div>
 
       <h1 class="text-5xl font-black mb-3">
-        {{ e.name }}
+        {{ event.name }}
       </h1>
 
       <p class="font-medium">
-        {{ e.start | date:'d MMMM yyyy, HH:mm' }}
+        {{ event.start | date:'mediumDate' }},
+        {{ event.start | date:'shortTime' }}
       </p>
     </div>
   </div>
@@ -32,7 +33,7 @@
         </h2>
 
         <p class="text-base-content/70">
-          Event description will appear here.
+          Event description will appear herevent.
         </p>
       </div>
     </div>
@@ -50,7 +51,8 @@
               Date
             </p>
             <p class="font-medium">
-              {{ e.start | date:'d MMMM yyyy, HH:mm' }}
+              {{ event.start | date:'mediumDate' }},
+              {{ event.start | date:'shortTime' }}
             </p>
           </div>
 
@@ -59,7 +61,7 @@
               Venue
             </p>
             <p class="font-medium">
-              {{ e.venue }}
+              {{ event.venue }}
             </p>
           </div>
 
