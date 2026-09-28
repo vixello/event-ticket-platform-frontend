@@ -1,21 +1,78 @@
 @if (event; as e) {
 
-  <div class="max-w-5xl mx-auto p-6">
+<div class="max-w-6xl mx-auto px-4 py-8">
 
-    <img
-      [src]="e.imageUrl"
-      [alt]="e.name"
-      class="w-full h-80 object-cover rounded-box"
-    />
+  <div class="relative overflow-hidden rounded-3xl">
+    <img [src]="e.imageUrl" [alt]="e.name" class="w-full h-[450px] object-cover" />
 
-    <h1 class="text-4xl font-bold">
-      {{ e.name }}
-    </h1>
+    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent">
+    </div>
 
-    <p class="mt-4 text-base-content/70">
-      {{ e.start }}
-    </p>
+    <div class="absolute bottom-0 left-0 p-8 text-white">
+      <div class="badge badge-primary mb-4">
+        Live Event
+      </div>
+
+      <h1 class="text-5xl font-black mb-3">
+        {{ e.name }}
+      </h1>
+
+      <p class="font-medium">
+        {{ e.start | date:'d MMMM yyyy, HH:mm' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[2fr_1fr] mt-8">
+
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body">
+        <h2 class="card-title text-2xl">
+          About this event
+        </h2>
+
+        <p class="text-base-content/70">
+          Event description will appear here.
+        </p>
+      </div>
+    </div>
+
+    <div class="card bg-base-100 border border-base-300">
+      <div class="card-body">
+        <h2 class="card-title">
+          Event Details
+        </h2>
+
+        <div class="space-y-4">
+
+          <div>
+            <p class="text-sm text-base-content/50">
+              Date
+            </p>
+            <p class="font-medium">
+              {{ e.start | date:'d MMMM yyyy, HH:mm' }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-sm text-base-content/50">
+              Venue
+            </p>
+            <p class="font-medium">
+              {{ e.venue }}
+            </p>
+          </div>
+
+          <button class="btn btn-primary w-full mt-4">
+            Buy Tickets
+          </button>
+
+        </div>
+      </div>
+    </div>
 
   </div>
+
+</div>
 
 }

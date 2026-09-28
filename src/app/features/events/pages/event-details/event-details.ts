@@ -1,22 +1,24 @@
-import { Component, Input } from '@angular/core';
-import { Event } from '../../models/event';
+import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../../services/event.service';
+import { Event } from '../../models/event';
 
 @Component({
-  imports: [],
   selector: 'app-event-details',
   templateUrl: './event-details.html',
+  imports: [DatePipe],
 })
-export class EventDetails {
+export class EventDetails implements OnInit {
 
   event: Event | null = null;
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private eventService: EventService
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {
@@ -24,7 +26,8 @@ export class EventDetails {
     }
 
     this.event = this.eventService.getById(id) ?? null;
-    console.log(id);
-    console.log('event:', this.event);
+
+    console.log('Event ID:', id);
+    console.log('Event:', this.event);
   }
 }
