@@ -20,14 +20,18 @@ export class AuthService {
         if (!isPlatformBrowser(this.platformId)) {
             return false;
         }
-        
+
         const authenticated = await this.keycloak.init({
             onLoad: 'check-sso',
             pkceMethod: 'S256',
             redirectUri: window.location.origin,
+            checkLoginIframe: false
         });
 
         this.authenticated.set(authenticated);
+        console.log('Keycloak initialized');
+        console.log('Authenticated:', authenticated);
+        console.log('Username:', this.username);
         return authenticated;
     }
 
