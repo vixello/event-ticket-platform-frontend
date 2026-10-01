@@ -11,30 +11,55 @@
   <div class="navbar-center hidden lg:flex">
     <ul class="menu menu-horizontal gap-2 px-1">
       <li>
-        <a routerLink="/events" class="font-medium">
-          Events
-        </a>
+        <a routerLink="/events">Events</a>
       </li>
+
       <li>
-        <a class="font-medium">
-          About
-        </a>
+        <a>About</a>
       </li>
     </ul>
   </div>
 
   <div class="navbar-end gap-3">
-    <a
-      routerLink="/login"
-      class="btn btn-ghost">
-      Log in
-    </a>
 
-    <a
-      routerLink="/register"
-      class="btn btn-primary rounded-full px-6">
-      Sign up
-    </a>
+    @if (!authService.isAuthenticated()) {
+
+      <a routerLink="/login" class="btn btn-ghost">
+        Log in
+      </a>
+
+      <a routerLink="/register" class="btn btn-primary rounded-full px-6">
+        Sign up
+      </a>
+
+    } @else {
+
+      <div class="dropdown dropdown-end">
+
+        <div tabindex="0" role="button" class="btn btn-ghost">
+          {{ authService.username }}
+        </div>
+
+        <ul
+          tabindex="0"
+          class="menu dropdown-content bg-base-100 rounded-box z-10 w-52 p-2 shadow">
+
+          <li>
+            <a>Profile</a>
+          </li>
+
+          <li>
+            <button (click)="authService.logout()">
+              Logout
+            </button>
+          </li>
+
+        </ul>
+
+      </div>
+
+    }
+
   </div>
 
 </div>
