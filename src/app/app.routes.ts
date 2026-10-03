@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { organizerGuard } from './core/guards/organizer.guard';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,13 @@ export const routes: Routes = [
         path: 'register',
         loadComponent: () => import('./features/auth/pages/register/register')
             .then((m) => m.Register)
+    },
+    {
+        path: 'organizer/events/create',
+        canActivate: [organizerGuard],
+        loadComponent: () =>
+            import('./features/organizer/pages/create-event/create-event')
+                .then((m) => m.CreateEventPage),
     },
     {
         path: '**',
