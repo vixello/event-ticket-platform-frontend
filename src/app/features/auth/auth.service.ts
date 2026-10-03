@@ -73,4 +73,16 @@ export class AuthService {
     get email(): string | undefined {
         return this.keycloak.tokenParsed?.['email'];
     }
+
+    get userId(): string | undefined {
+        return this.keycloak.subject;
+    }
+
+    get roles(): string[] {
+        return this.keycloak.realmAccess?.roles ?? [];
+    }
+
+    hasRole(role: string): boolean {
+        return this.keycloak.hasRealmRole(role);
+    }
 }
