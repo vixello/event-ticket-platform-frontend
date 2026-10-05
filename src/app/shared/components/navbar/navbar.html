@@ -1,9 +1,7 @@
 <div class="navbar bg-base-100/80 backdrop-blur border-b border-base-300 px-6">
 
   <div class="navbar-start">
-    <a
-      routerLink="/events"
-      class="text-2xl font-black tracking-tight text-primary">
+    <a routerLink="/events" class="text-2xl font-black tracking-tight text-primary">
       Eventmaster
     </a>
   </div>
@@ -24,39 +22,37 @@
 
     @if (!authService.isAuthenticated()) {
 
-      <a routerLink="/login" class="btn btn-ghost">
-        Log in
-      </a>
+    <a routerLink="/login" class="btn btn-ghost">
+      Log in
+    </a>
 
-      <a routerLink="/register" class="btn btn-primary rounded-full px-6">
-        Sign up
-      </a>
+    <a routerLink="/register" class="btn btn-primary rounded-full px-6">
+      Sign up
+    </a>
 
     } @else {
 
-      <div class="dropdown dropdown-end">
+    <div class="dropdown dropdown-end">
 
-        <div tabindex="0" role="button" class="btn btn-ghost">
-          {{ authService.username }}
-        </div>
-
-        <ul
-          tabindex="0"
-          class="menu dropdown-content bg-base-100 rounded-box z-10 w-52 p-2 shadow">
-
-          <li>
-            <a>Profile</a>
-          </li>
-
-          <li>
-            <button (click)="authService.logout()">
-              Logout
-            </button>
-          </li>
-
-        </ul>
-
+      <div tabindex="0" role="button" class="btn btn-ghost">
+        {{ authService.username }}
       </div>
+
+      <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-10 w-52 p-2 shadow">
+
+        <li>
+          <a routerLink="/organizer">Profile</a>
+        </li>
+
+        <li>
+          <button (click)="authService.logout()">
+            Logout
+          </button>
+        </li>
+
+      </ul>
+
+    </div>
 
     }
 

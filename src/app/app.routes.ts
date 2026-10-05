@@ -35,6 +35,13 @@ export const routes: Routes = [
                 .then((m) => m.CreateEventPage),
     },
     {
+        path: 'organizer',
+        canActivate: [organizerGuard],
+        loadComponent: () =>
+            import('./features/organizer/pages/organizer-dashboard/organizer-dashboard')
+                .then((m) => m.OrganizerDashboard),
+    },
+    {
         path: '**',
         redirectTo: 'events',
     },

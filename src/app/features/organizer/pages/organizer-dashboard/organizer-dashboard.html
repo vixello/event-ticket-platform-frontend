@@ -1,0 +1,174 @@
+<div class="max-w-7xl mx-auto p-6">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div>
+            <h1 class="text-3xl font-bold">Organizer Dashboard</h1>
+            <p class="text-base-content/70 mt-1">
+                Manage your events and monitor ticket sales.
+            </p>
+        </div>
+
+        <a routerLink="/organizer/events/create" class="btn btn-primary">
+            Create Event
+        </a>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+
+        <div class="stat bg-base-100 rounded-box shadow-sm">
+            <div class="stat-title">Total Events</div>
+            <div class="stat-value">3</div>
+            <div class="stat-desc">All your events</div>
+        </div>
+
+        <div class="stat bg-base-100 rounded-box shadow-sm">
+            <div class="stat-title">Published</div>
+            <div class="stat-value">2</div>
+            <div class="stat-desc">Currently on sale</div>
+        </div>
+
+        <div class="stat bg-base-100 rounded-box shadow-sm">
+            <div class="stat-title">Tickets Sold</div>
+            <div class="stat-value">248</div>
+            <div class="stat-desc">Across all events</div>
+        </div>
+
+        <div class="stat bg-base-100 rounded-box shadow-sm">
+            <div class="stat-title">Revenue</div>
+            <div class="stat-value">€4,820</div>
+            <div class="stat-desc">Total ticket sales</div>
+        </div>
+
+    </div>
+
+    <!-- Events -->
+    <div class="flex items-center justify-between mb-4">
+        <div>
+            <h2 class="text-2xl font-bold">Your Events</h2>
+            <p class="text-base-content/70">
+                Manage the events you organize.
+            </p>
+        </div>
+
+        <button class="btn btn-ghost">
+            View all
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Event 1 -->
+        <div class="card bg-base-100 shadow-sm">
+            <div class="card-body">
+
+                <div class="flex justify-between items-start gap-4">
+                    <h3 class="card-title">
+                        Summer Music Festival
+                    </h3>
+
+                    <span class="badge badge-success">
+                        Published
+                    </span>
+                </div>
+
+                <p class="text-base-content/70">
+                    August 15, 2026
+                </p>
+
+                <p class="text-base-content/70">
+                    Warsaw National Stadium
+                </p>
+
+                <div class="divider my-2"></div>
+
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-sm text-base-content/60">Tickets sold</p>
+                        <p class="font-semibold">120 / 500</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-base-content/60">Revenue</p>
+                        <p class="font-semibold">€2,400</p>
+                    </div>
+                </div>
+
+                <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-sm btn-outline">
+                        Manage
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="card bg-base-100 shadow-sm">
+            <div class="card-body">
+
+                <div class="flex justify-between items-start gap-4">
+                    <h3 class="card-title">
+                        Tech Conference 2026
+                    </h3>
+
+                    <span class="badge badge-success">
+                        Published
+                    </span>
+                </div>
+
+                <p class="text-base-content/70">
+                    September 5, 2026
+                </p>
+
+                <p class="text-base-content/70">
+                    EXPO XXI Warsaw
+                </p>
+
+                <div class="divider my-2"></div>
+
+                <div class="flex justify-between">
+                    <div>
+                        <p class="text-sm text-base-content/60">Tickets sold</p>
+                        <p class="font-semibold">98 / 300</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-base-content/60">Revenue</p>
+                        <p class="font-semibold">€2,420</p>
+                    </div>
+                </div>
+
+                <div class="card-actions justify-end mt-4">
+                    <button class="btn btn-sm btn-outline">
+                        Manage
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Create event -->
+        <a routerLink="/organizer/events/create"
+            class="card bg-base-100 border-2 border-dashed border-base-300 hover:border-primary transition-colors">
+            <div class="card-body items-center justify-center text-center min-h-64">
+
+                <div class="text-4xl text-primary">
+                    +
+                </div>
+
+                <h3 class="text-xl font-semibold">
+                    Create a new event
+                </h3>
+
+                <p class="text-base-content/60">
+                    Add an event and start selling tickets.
+                </p>
+
+            </div>
+        </a>
+
+    </div>
+
+</div>
