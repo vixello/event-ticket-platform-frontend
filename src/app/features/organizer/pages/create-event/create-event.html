@@ -1,221 +1,293 @@
-<div class="max-w-5xl mx-auto p-6">
+<div class="min-h-screen bg-base-200">
 
-    <div class="mb-8">
-        <h1 class="text-4xl font-bold">
-            Create Event
-        </h1>
+    <div class="max-w-5xl mx-auto p-6 lg:p-10">
 
-        <p class="mt-2 text-base-content/60">
-            Create an event and configure its ticket types.
-        </p>
-    </div>
-
-
-    <form class="space-y-8" (ngSubmit)="createEvent()">
-
-        <!-- Event details -->
-        <div class="card bg-base-100 shadow-md">
-
-            <div class="card-body">
-
-                <h2 class="card-title text-2xl">
-                    Event details
-                </h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-
-                    <!-- Name -->
-                    <label class="form-control md:col-span-2">
-                        <span class="label-text mb-2">
-                            Event name
-                        </span>
-
-                        <input type="text" name="name" [(ngModel)]="event.name" placeholder="Summer Music Festival"
-                            class="input input-bordered w-full" required />
-                    </label>
-
-
-                    <!-- Venue -->
-                    <label class="form-control md:col-span-2">
-                        <span class="label-text mb-2">
-                            Venue
-                        </span>
-
-                        <input type="text" name="venue" [(ngModel)]="event.venue" placeholder="Warsaw National Stadium"
-                            class="input input-bordered w-full" required />
-                    </label>
-
-
-                    <!-- Start -->
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            Start
-                        </span>
-
-                        <input type="datetime-local" name="start" [(ngModel)]="event.start"
-                            class="input input-bordered w-full" required />
-                    </label>
-
-
-                    <!-- End -->
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            End
-                        </span>
-
-                        <input type="datetime-local" name="end" [(ngModel)]="event.end"
-                            class="input input-bordered w-full" required />
-                    </label>
-
-
-                    <!-- Sale start -->
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            Ticket sales start
-                        </span>
-
-                        <input type="datetime-local" name="saleStart" [(ngModel)]="event.saleStart"
-                            class="input input-bordered w-full" required />
-                    </label>
-
-
-                    <!-- Sale end -->
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            Ticket sales end
-                        </span>
-
-                        <input type="datetime-local" name="saleEnd" [(ngModel)]="event.saleEnd"
-                            class="input input-bordered w-full" required />
-                    </label>
-
-                </div>
-
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="breadcrumbs text-sm mb-3">
+                <ul>
+                    <li>
+                        <a routerLink="/organizer" class="text-base-content/60 hover:text-primary">
+                            Organizer
+                        </a>
+                    </li>
+                    <li>Create event</li>
+                </ul>
             </div>
 
+            <h1 class="text-4xl font-bold tracking-tight">
+                Create event
+            </h1>
+
+            <p class="mt-2 text-base-content/60 max-w-2xl">
+                Create your event, configure its schedule, and add the ticket types
+                available to your attendees.
+            </p>
         </div>
 
 
-        <!-- Ticket types -->
-        <div class="card bg-base-100 shadow-md">
+        <form class="space-y-6" (ngSubmit)="createEvent()">
 
-            <div class="card-body">
+            <!-- Event details -->
+            <section class="card bg-base-100 border border-base-300 shadow-sm">
 
-                <h2 class="card-title text-2xl">
-                    Ticket types
-                </h2>
+                <div class="card-body p-6 lg:p-8">
 
-                <p class="text-base-content/60">
-                    Add the ticket types and quantities available for this event.
-                </p>
+                    <div class="flex items-start gap-4 mb-6">
+                        <div class="flex-1">
+                            <h2 class="card-title text-2xl">
+                                Event details
+                            </h2>
 
-
-                <!-- Existing ticket types -->
-
-                @if (event.ticketTypes.length > 0) {
-
-                <div class="space-y-3 mt-4">
-
-                    @for (ticket of event.ticketTypes; track $index) {
-
-                    <div class="flex items-center justify-between gap-4
-                       border border-base-300 rounded-box p-4">
-
-                        <div>
-                            <p class="font-semibold">
-                                {{ ticket.name }}
-                            </p>
-
-                            <p class="text-sm text-base-content/60">
-                                {{ ticket.totalAvailable }} tickets
+                            <p class="text-sm text-base-content/60 mt-1">
+                                Provide the basic information about your event.
                             </p>
                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        <!-- Name -->
+                        <label class="form-control md:col-span-2">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Event name
+                                </span>
+                            </div>
+
+                            <input type="text" name="name" [(ngModel)]="event.name" placeholder="Summer Music Festival"
+                                class="input input-bordered w-full" required />
+                        </label>
 
 
-                        <div class="flex items-center gap-4">
+                        <!-- Venue -->
+                        <label class="form-control md:col-span-2">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Venue
+                                </span>
+                            </div>
 
-                            <span class="font-semibold">
-                                {{ ticket.price | number:'1.2-2' }} PLN
-                            </span>
+                            <input type="text" name="venue" [(ngModel)]="event.venue"
+                                placeholder="Warsaw National Stadium" class="input input-bordered w-full" required />
+                        </label>
 
-                            <button type="button" class="btn btn-error btn-sm" (click)="removeTicketType($index)">
-                                Remove
-                            </button>
+
+                        <!-- Start -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Event starts
+                                </span>
+                            </div>
+
+                            <input type="datetime-local" name="start" [(ngModel)]="event.start"
+                                class="input input-bordered w-full" required />
+                        </label>
+
+
+                        <!-- End -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Event ends
+                                </span>
+                            </div>
+
+                            <input type="datetime-local" name="end" [(ngModel)]="event.end"
+                                class="input input-bordered w-full" required />
+                        </label>
+
+
+                        <!-- Sale start -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Ticket sales start
+                                </span>
+                            </div>
+
+                            <input type="datetime-local" name="saleStart" [(ngModel)]="event.saleStart"
+                                class="input input-bordered w-full" required />
+                        </label>
+
+
+                        <!-- Sale end -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Ticket sales end
+                                </span>
+                            </div>
+
+                            <input type="datetime-local" name="saleEnd" [(ngModel)]="event.saleEnd"
+                                class="input input-bordered w-full" required />
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Ticket types -->
+            <section class="card bg-base-100 border border-base-300 shadow-sm">
+
+                <div class="card-body p-6 lg:p-8">
+
+                    <div class="mb-6">
+                        <h2 class="card-title text-2xl">
+                            Ticket types
+                        </h2>
+
+                        <p class="text-sm text-base-content/60 mt-1">
+                            Define the tickets available for your event, including
+                            their price and quantity.
+                        </p>
+                    </div>
+
+
+                    <!-- Existing ticket types -->
+                    @if (event.ticketTypes.length > 0) {
+
+                    <div class="space-y-3">
+
+                        @for (ticket of event.ticketTypes; track $index) {
+
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between
+                                           gap-4 rounded-box border border-base-300
+                                           bg-base-200/30 p-4">
+
+                            <div class="min-w-0">
+                                <p class="font-semibold truncate">
+                                    {{ ticket.name }}
+                                </p>
+
+                                <p class="text-sm text-base-content/60 mt-1">
+                                    {{ ticket.totalAvailable }} tickets available
+                                </p>
+                            </div>
+
+                            <div class="flex items-center justify-between sm:justify-end gap-4">
+
+                                <span class="font-semibold whitespace-nowrap">
+                                    {{ ticket.price | number:'1.2-2' }} PLN
+                                </span>
+
+                                <button type="button" class="btn btn-error btn-sm btn-outline"
+                                    (click)="removeTicketType($index)">
+                                    Remove
+                                </button>
+
+                            </div>
 
                         </div>
 
+                        }
+
+                    </div>
+
+                    } @else {
+
+                    <div class="rounded-box border border-dashed border-base-300 p-8 text-center">
+                        <p class="font-medium">
+                            No ticket types added yet
+                        </p>
+
+                        <p class="text-sm text-base-content/60 mt-1">
+                            Add at least one ticket type below.
+                        </p>
                     </div>
 
                     }
 
+
+                    <!-- Add ticket type -->
+                    <div class="divider my-8">
+                        Add ticket type
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+                        <!-- Name -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Ticket name
+                                </span>
+                            </div>
+
+                            <input type="text" name="ticketName" [(ngModel)]="newTicketType.name"
+                                placeholder="General Admission" class="input input-bordered w-full" />
+                        </label>
+
+
+                        <!-- Price -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Price
+                                </span>
+                            </div>
+
+                            <label class="input input-bordered flex items-center gap-2">
+                                <input type="number" name="ticketPrice" [(ngModel)]="newTicketType.price" min="0"
+                                    step="0.01" placeholder="0.00" class="grow" />
+
+                                <span class="text-sm text-base-content/50">
+                                    PLN
+                                </span>
+                            </label>
+                        </label>
+
+
+                        <!-- Quantity -->
+                        <label class="form-control">
+                            <div class="label">
+                                <span class="label-text font-medium">
+                                    Quantity
+                                </span>
+                            </div>
+
+                            <input type="number" name="ticketQuantity" [(ngModel)]="newTicketType.totalAvailable"
+                                min="1" placeholder="100" class="input input-bordered w-full" />
+                        </label>
+
+                    </div>
+
+
+                    <div class="mt-5">
+                        <button type="button" class="btn btn-outline" (click)="addTicketType()">
+                            Add ticket type
+                        </button>
+                    </div>
+
                 </div>
 
-                }
+            </section>
 
 
-                <!-- Add ticket type -->
+            <!-- Actions -->
+            <div class="card bg-base-100 border border-base-300 shadow-sm">
+                <div class="card-body p-5">
 
-                <div class="divider">
-                    Add ticket type
-                </div>
+                    <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4">
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button type="button" class="btn btn-ghost" routerLink="/organizer">
+                            Cancel
+                        </button>
 
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            Name
-                        </span>
+                        <button type="submit" class="btn btn-primary px-8">
+                            Create event
+                        </button>
 
-                        <input type="text" name="ticketName" [(ngModel)]="newTicketType.name"
-                            placeholder="General Admission" class="input input-bordered" />
-                    </label>
-
-
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            Price (PLN)
-                        </span>
-
-                        <input type="number" name="ticketPrice" [(ngModel)]="newTicketType.price" min="0" step="0.01"
-                            class="input input-bordered" />
-                    </label>
-
-
-                    <label class="form-control">
-                        <span class="label-text mb-2">
-                            Quantity
-                        </span>
-
-                        <input type="number" name="ticketQuantity" [(ngModel)]="newTicketType.totalAvailable" min="1"
-                            class="input input-bordered" />
-                    </label>
+                    </div>
 
                 </div>
-
-
-                <button type="button" class="btn btn-outline mt-4" (click)="addTicketType()">
-                    + Add ticket type
-                </button>
-
             </div>
 
-        </div>
+        </form>
 
-
-        <!-- Actions -->
-
-        <div class="flex justify-end gap-3">
-
-            <button type="button" class="btn btn-ghost" routerLink="/organizer">
-                Cancel
-            </button>
-
-            <button type="submit" class="btn btn-primary">
-                Create event
-            </button>
-
-        </div>
-
-    </form>
-
+    </div>
 </div>

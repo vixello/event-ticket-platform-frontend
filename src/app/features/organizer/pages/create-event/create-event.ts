@@ -1,6 +1,6 @@
 import { Component, inject} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
 import { CreateEvent } from '../../models/create-event';
@@ -10,7 +10,7 @@ import { DecimalPipe } from '@angular/common';
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.html',
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe, RouterLink],
 })
 export class CreateEventPage {
 
