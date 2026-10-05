@@ -16,7 +16,9 @@ export class CreateEventPage {
 
   private readonly eventService = inject(OrganizerEventService);
   private readonly router = inject(Router);
-
+  constructor() {
+    console.log('CREATE EVENT PAGE CREATED');
+  }
   event: CreateEvent = {
     name: '',
     start: '',

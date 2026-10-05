@@ -23,8 +23,9 @@ export class AuthService {
 
         const authenticated = await this.keycloak.init({
             onLoad: 'check-sso',
+            // onLoad: 'login-required',
             pkceMethod: 'S256',
-            redirectUri: window.location.origin,
+            redirectUri: window.location.href,
             checkLoginIframe: false
         });
 
@@ -32,6 +33,7 @@ export class AuthService {
         console.log('Keycloak initialized');
         console.log('Authenticated:', authenticated);
         console.log('Username:', this.username);
+        console.log('Roles:', this.roles);
         return authenticated;
     }
 
