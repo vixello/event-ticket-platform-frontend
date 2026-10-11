@@ -1,4 +1,4 @@
-import { TicketType } from './ticket-type';
+import { TicketType } from '../../../shared/models/ticket-type';
 
 export interface CreateEvent {
   name: string;

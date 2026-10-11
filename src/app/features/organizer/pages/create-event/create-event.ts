@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
 import { CreateEvent } from '../../models/create-event';
-import { TicketType } from '../../models/ticket-type';
+import { TicketType } from '../../../../shared/models/ticket-type';
 import { DecimalPipe } from '@angular/common';
 
 @Component({
@@ -31,6 +31,7 @@ export class CreateEventPage {
 
   newTicketType: TicketType = {
     name: '',
+    description: '',
     price: 0,
     totalAvailable: 1,
   };
@@ -50,6 +51,7 @@ export class CreateEventPage {
 
     this.newTicketType = {
       name: '',
+      description: '',
       price: 0,
       totalAvailable: 1,
     };
