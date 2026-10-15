@@ -1,5 +1,12 @@
 import { TicketType } from '../../../shared/models/ticket-type';
 
+export enum EventStatusEnum {
+  DRAFT = 'DRAFT', 
+  PUBLISHED = 'PUBLISHED',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED'
+}
+
 export interface CreateEvent {
   name: string;
   start: string;
@@ -7,5 +14,6 @@ export interface CreateEvent {
   venue: string;
   saleStart: string;
   saleEnd: string;
+  status: EventStatusEnum;
   ticketTypes: TicketType[];
 }
