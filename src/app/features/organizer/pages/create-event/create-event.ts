@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
-import { CreateEvent } from '../../models/create-event';
+import { CreateEvent, EventStatusEnum } from '../../models/create-event';
 import { TicketType } from '../../../../shared/models/ticket-type';
 import { DecimalPipe } from '@angular/common';
 
@@ -26,6 +26,7 @@ export class CreateEventPage {
     venue: '',
     saleStart: '',
     saleEnd: '',
+    status: EventStatusEnum.DRAFT,
     ticketTypes: [],
   };
 
