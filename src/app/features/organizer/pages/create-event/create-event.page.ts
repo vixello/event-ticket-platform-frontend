@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
-import { CreateEvent, EventStatusEnum } from '../../models/create-event';
+import { CreateEvent, EventStatusEnum } from '../../models/create-event.model';
 import { TicketType } from '../../../../shared/models/ticket-type';
 import { DecimalPipe } from '@angular/common';
 

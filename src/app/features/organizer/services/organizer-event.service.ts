@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreateEvent } from '../models/create-event';
+import { CreateEvent } from '../models/create-event.model';
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs';
 
