@@ -66,7 +66,11 @@ export class CreateEventPage {
       return;
     }
 
-    this.eventService.createEvent(this.event);
+    this.eventService.createEvent(this.event).subscribe({
+      next: (newEvent) => {
+        alert('Event created');
+      }
+    });
 
     console.log('Event created:', this.event);
 
