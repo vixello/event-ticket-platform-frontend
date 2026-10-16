@@ -31,7 +31,7 @@ export const routes: Routes = [
         path: 'organizer/events/create',
         canActivate: [organizerGuard],
         loadComponent: () =>
-            import('./features/organizer/pages/create-event/create-event')
+            import('./features/organizer/pages/create-event/create-event.page')
                 .then((m) => m.CreateEventPage),
     },
     {
