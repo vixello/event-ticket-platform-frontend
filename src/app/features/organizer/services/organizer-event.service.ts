@@ -11,6 +11,6 @@ export class OrganizerEventService {
 
   private apiUrl = 'http://localhost:9090/api/v1/events'
   createEvent(event: CreateEvent): Observable<CreateEvent> {
-      return this.http.get<CreateEvent>(this.apiUrl);
+      return this.http.post<CreateEvent>(this.apiUrl, event);
   }
 }
