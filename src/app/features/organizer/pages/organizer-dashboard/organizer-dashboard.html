@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="stat-value">
-                    3
+                    {{ totalElements || events.length }}
                 </div>
 
                 <div class="stat-desc">
@@ -53,7 +53,8 @@
                 </div>
 
                 <div class="stat-value text-success">
-                    2
+                    <!-- Example count logic or keep static if not tracked separately -->
+                    {{ events.filter(e => e.status === 'PUBLISHED').length }}
                 </div>
 
                 <div class="stat-desc">
@@ -67,7 +68,7 @@
                 </div>
 
                 <div class="stat-value">
-                    248
+                    0
                 </div>
 
                 <div class="stat-desc">
@@ -81,7 +82,7 @@
                 </div>
 
                 <div class="stat-value text-primary">
-                    €4,820
+                    €0
                 </div>
 
                 <div class="stat-desc">
@@ -113,127 +114,64 @@
         <!-- Events Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            <!-- Event -->
-            <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="card-body">
+            <!-- Dynamic Event Cards -->
+            @for (event of events; track event.id) {
+                <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="card-body">
 
-                    <div class="flex justify-between items-start gap-4">
+                        <div class="flex justify-between items-start gap-4">
+                            <h3 class="card-title">
+                                {{ event.name }}
+                            </h3>
 
-                        <h3 class="card-title">
-                            Summer Music Festival
-                        </h3>
-
-                        <span class="badge badge-success">
-                            Published
-                        </span>
-
-                    </div>
-
-                    <p class="text-base-content/70">
-                        August 15, 2026
-                    </p>
-
-                    <p class="text-base-content/70">
-                        Warsaw National Stadium
-                    </p>
-
-                    <div class="divider my-2"></div>
-
-                    <div class="flex justify-between">
-
-                        <div>
-                            <p class="text-sm text-base-content/60">
-                                Tickets Sold
-                            </p>
-
-                            <p class="font-semibold">
-                                120 / 500
-                            </p>
+                            <span class="badge" [ngClass]="{
+                                'badge-success': event.status === 'PUBLISHED',
+                                'badge-warning': event.status === 'DRAFT',
+                                'badge-error': event.status === 'CANCELLED',
+                                'badge-neutral': event.status === 'COMPLETED'
+                            }">
+                                {{ event.status }}
+                            </span>
                         </div>
 
-                        <div class="text-right">
-                            <p class="text-sm text-base-content/60">
-                                Revenue
-                            </p>
+                        <p class="text-base-content/70">
+                            {{ event.start || 'No start date' }}
+                        </p>
 
-                            <p class="font-semibold">
-                                €2,400
-                            </p>
+                        <p class="text-base-content/70">
+                            {{ event.venue }}
+                        </p>
+
+                        <div class="divider my-2"></div>
+
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="text-sm text-base-content/60">
+                                    Ticket Types
+                                </p>
+                                <p class="font-semibold">
+                                    {{ event.ticketTypes?.length || 0 }} defined
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card-actions justify-end mt-4">
+                            <button
+                                class="btn btn-outline btn-sm hover:border-primary hover:text-primary transition-colors duration-200">
+                                Manage
+                            </button>
                         </div>
 
                     </div>
-
-                    <div class="card-actions justify-end mt-4">
-                        <button
-                            class="btn btn-outline btn-sm hover:border-primary hover:text-primary transition-colors duration-200">
-                            Manage
-                        </button>
-                    </div>
-
                 </div>
-            </div>
-
-            <!-- Event -->
-            <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="card-body">
-
-                    <div class="flex justify-between items-start gap-4">
-
-                        <h3 class="card-title">
-                            Tech Conference 2026
-                        </h3>
-
-                        <span class="badge badge-success">
-                            Published
-                        </span>
-
-                    </div>
-
-                    <p class="text-base-content/70">
-                        September 5, 2026
-                    </p>
-
-                    <p class="text-base-content/70">
-                        EXPO XXI Warsaw
-                    </p>
-
-                    <div class="divider my-2"></div>
-
-                    <div class="flex justify-between">
-
-                        <div>
-                            <p class="text-sm text-base-content/60">
-                                Tickets Sold
-                            </p>
-
-                            <p class="font-semibold">
-                                98 / 300
-                            </p>
-                        </div>
-
-                        <div class="text-right">
-                            <p class="text-sm text-base-content/60">
-                                Revenue
-                            </p>
-
-                            <p class="font-semibold">
-                                €2,420
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="card-actions justify-end mt-4">
-                        <button
-                            class="btn btn-outline btn-sm hover:border-primary hover:text-primary transition-colors duration-200">
-                            Manage
-                        </button>
-                    </div>
-
+            } @empty {
+                <!-- Empty state when no events exist -->
+                <div class="col-span-full card bg-base-100 shadow-lg p-8 text-center">
+                    <p class="text-lg text-base-content/70">You haven't created any events yet.</p>
                 </div>
-            </div>
+            }
 
-            <!-- Create Event -->
+            <!-- Create Event Card (Always stays as a shortcut card) -->
             <a routerLink="/organizer/events/create"
                 class="card bg-base-100 border-2 border-dashed border-base-content/10 hover:border-primary hover:shadow-xl transition-all duration-300">
 
