@@ -1,14 +1,16 @@
-import { Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
-import { CreateEvent, EventStatusEnum } from '../../models/create-event.model';
+import { CreateEventDto} from '../../models/create-event.model';
+import { EventStatus } from '../../../../shared/models/base-event';
 import { TicketType } from '../../../../shared/models/ticket-type';
 import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-event',
+  standalone: true,
   templateUrl: './create-event.html',
   imports: [FormsModule, DecimalPipe, RouterLink],
 })
@@ -19,14 +21,14 @@ export class CreateEventPage {
   constructor() {
     console.log('CREATE EVENT PAGE CREATED');
   }
-  event: CreateEvent = {
+  event: CreateEventDto = {
     name: '',
     start: '',
     end: '',
     venue: '',
     saleStart: '',
     saleEnd: '',
-    status: EventStatusEnum.DRAFT,
+    status: EventStatus.DRAFT,
     ticketTypes: [],
   };
 
@@ -62,31 +64,62 @@ export class CreateEventPage {
     this.event.ticketTypes.splice(index, 1);
   }
 
-  createEvent(): void {
-    if (!this.isValid()) {
-      return;
-    }
-
-    this.eventService.createEvent(this.event).subscribe({
-      next: (newEvent) => {
-        alert('Event created');
-      }
-    });
-
-    console.log('Event created:', this.event);
-
-    this.router.navigate(['/organizer']);
+createEvent(): void {
+  if (!this.isValid()) {
+    return;
   }
 
+  this.eventService.createEvent(this.event).subscribe({
+    next: (response) => {
+      console.log('Response status:', response.status); // e.g., 200 or 201
+      
+      if (response.status === 200 || response.status === 201) {
+        alert('Event created successfully!');
+        this.router.navigate(['/organizer']);
+      }
+    },
+    error: (err) => {
+      console.error('Error creating event:', err);
+    }
+  });
+}
+
   private isValid(): boolean {
-    return (
-      this.event.name.trim().length > 0 &&
-      this.event.venue.trim().length > 0 &&
-      !!this.event.start &&
-      !!this.event.end &&
-      !!this.event.saleStart &&
-      !!this.event.saleEnd &&
-      this.event.ticketTypes.length > 0
-    );
+    if (!this.event.name.trim()) {
+      alert("Please fill in event's name");
+      return false;
+    }
+
+    if (!this.event.venue.trim()) {
+      alert("Please fill in event's venue");
+      return false;
+    }
+
+    if (!this.event.start) {
+      alert("Please fill in event's start date");
+      return false;
+    }
+
+    if (!this.event.end) {
+      alert("Please fill in event's end date");
+      return false;
+    }
+
+    if (!this.event.saleStart) {
+      alert("Please fill in event's sale start date");
+      return false;
+    }
+
+    if (!this.event.saleEnd) {
+      alert("Please fill in event's sale end date");
+      return false;
+    }
+
+    if (this.event.ticketTypes.length === 0) {
+      alert("Please provide at least one ticket type");
+      return false;
+    }
+
+    return true;
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../../services/event.service';
-import { Event } from '../../models/event';
+import { EventDto } from '../../models/event';
 
 @Component({
   selector: 'app-event-details',
@@ -11,7 +11,7 @@ import { Event } from '../../models/event';
 })
 export class EventDetails implements OnInit {
 
-  event: Event | null = null;
+  event: EventDto | null = null;
 
   constructor(
     private route: ActivatedRoute,

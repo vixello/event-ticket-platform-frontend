@@ -3,7 +3,7 @@ import { EventSearch } from '../../components/event-search/event-search';
 import { EventGrid } from '../../components/event-grid/event-grid';
 import { EventFilters } from '../../components/event-filters/event-filters';
 import { EventService } from '../../services/event.service';
-import { Event } from '../../models/event';
+import { EventDto } from '../../models/event';
 
 @Component({
   imports: [EventSearch, EventFilters, EventGrid],
@@ -12,7 +12,7 @@ import { Event } from '../../models/event';
 })
 export class EventList {
 
-  events: Event[] = [];
+  events: EventDto[] = [];
 
   constructor(
     private eventService: EventService

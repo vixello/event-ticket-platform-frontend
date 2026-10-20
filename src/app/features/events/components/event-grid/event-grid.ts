@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 
 import { EventCard } from '../event-card/event-card';
-import { Event } from '../../models/event';
+import { EventDto } from '../../models/event';
 
 @Component({
   selector: 'app-event-grid',
@@ -12,5 +12,5 @@ import { Event } from '../../models/event';
 
 export class EventGrid {
 
-  events = input.required<Event[]>();
+  events = input.required<EventDto[]>();
 }

@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
-import { Event } from '../models/event';
+import { EventDto } from "../models/event";
+import { EventStatus } from "../../../shared/models/base-event";
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class EventService {
-    private events: Event[] = [
+    private events: EventDto[] = [
         {
             id: '1',
             name: 'Summer Music Festival',
@@ -16,7 +17,8 @@ export class EventService {
             venue: 'Warsaw National Stadium',
             saleStart: '2026-06-01T09:00:00',
             saleEnd: '2026-08-15T17:00:00',
-            status: 'PUBLISHED',
+            status: EventStatus.PUBLISHED,
+            ticketTypes:  []
         },
         {
             id: '2',
@@ -27,7 +29,8 @@ export class EventService {
             venue: 'EXPO XXI Warsaw',
             saleStart: '2026-05-01T09:00:00',
             saleEnd: '2026-09-05T08:00:00',
-            status: 'PUBLISHED',
+            status: EventStatus.PUBLISHED,
+            ticketTypes:  []
         },
         {
             id: '3',
@@ -38,19 +41,20 @@ export class EventService {
             venue: 'Kraków Main Square',
             saleStart: '2026-07-01T09:00:00',
             saleEnd: '2026-09-20T11:00:00',
-            status: 'PUBLISHED',
+            status: EventStatus.PUBLISHED,
+            ticketTypes: []
         },
     ];
 
-    getEvents(): Event[] {
+    getEvents(): EventDto[] {
         return this.events;
     }
 
-    getById(id: string): Event | undefined {
+    getById(id: string): EventDto | undefined {
         return this.events.find(e => e.id === id);
     }
 
-    searchEvents(searchQuery: String): Event[] {
+    searchEvents(searchQuery: String): EventDto[] {
         const normalizedQuery = searchQuery.toLowerCase();
 
         if (!normalizedQuery) {
