@@ -33,6 +33,7 @@ export class CreateEventPage {
   };
 
   newTicketType: TicketType = {
+    id:'',
     name: '',
     description: '',
     price: 0,
@@ -53,6 +54,7 @@ export class CreateEventPage {
     });
 
     this.newTicketType = {
+      id:'',
       name: '',
       description: '',
       price: 0,
