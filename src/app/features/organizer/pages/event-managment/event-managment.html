@@ -1,0 +1,333 @@
+<div class="min-h-screen bg-base-300">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="breadcrumbs text-sm">
+                <ul>
+                    <li>
+                        <a routerLink="/organizer/events">Events</a>
+                    </li>
+                    <li>{{ event?.name }}</li>
+                </ul>
+            </div>
+
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mt-4">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-4xl font-bold">
+                            {{ event?.name }}
+                        </h1>
+
+                        <span class="badge" [ngClass]="{
+                'badge-success': event?.status === 'PUBLISHED',
+                'badge-warning': event?.status === 'DRAFT',
+                'badge-error': event?.status === 'CANCELLED',
+                'badge-neutral': event?.status === 'COMPLETED'
+              }">
+                            {{ event?.status }}
+                        </span>
+                    </div>
+
+                    <p class="text-base-content/70 mt-2">
+                        {{ event?.start }} • {{ event?.venue }}
+                    </p>
+                </div>
+
+                <div class="flex gap-2">
+                    <button class="btn btn-outline">
+                        Edit Event
+                    </button>
+
+                    <button class="btn btn-primary">
+                        Publish
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+
+            <div class="stat bg-base-100 rounded-2xl shadow-lg">
+                <div class="stat-title">
+                    Tickets Sold
+                </div>
+
+                <div class="stat-value">
+                    0
+                </div>
+
+                <div class="stat-desc">
+                    Across all ticket types
+                </div>
+            </div>
+
+            <div class="stat bg-base-100 rounded-2xl shadow-lg">
+                <div class="stat-title">
+                    Revenue
+                </div>
+
+                <div class="stat-value text-primary">
+                    €0
+                </div>
+
+                <div class="stat-desc">
+                    Gross sales
+                </div>
+            </div>
+
+            <div class="stat bg-base-100 rounded-2xl shadow-lg">
+                <div class="stat-title">
+                    Ticket Types
+                </div>
+
+                <div class="stat-value">
+                    {{ event?.ticketTypes?.length || 0 }}
+                </div>
+
+                <div class="stat-desc">
+                    Configured ticket tiers
+                </div>
+            </div>
+
+            <div class="stat bg-base-100 rounded-2xl shadow-lg">
+                <div class="stat-title">
+                    Check-ins
+                </div>
+
+                <div class="stat-value">
+                    0
+                </div>
+
+                <div class="stat-desc">
+                    Attendees admitted
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Content -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+            <!-- Left -->
+            <div class="xl:col-span-2 flex flex-col gap-6">
+
+                <!-- Event Details -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Event Details
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+
+                            <div>
+                                <p class="text-sm text-base-content/60">
+                                    Venue
+                                </p>
+
+                                <p class="font-medium">
+                                    {{ event?.venue || 'Not specified' }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-base-content/60">
+                                    Start Date
+                                </p>
+
+                                <p class="font-medium">
+                                    {{ event?.start || 'Not scheduled' }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-base-content/60">
+                                    Status
+                                </p>
+
+                                <p class="font-medium">
+                                    {{ event?.status }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p class="text-sm text-base-content/60">
+                                    Category
+                                </p>
+
+                                <!-- <p class="font-medium">
+                                    {{ event?.category || 'Not specified' }}
+                                </p> -->
+                            </div>
+
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div>
+                            <p class="text-sm text-base-content/60 mb-2">
+                                Description
+                            </p>
+<!-- 
+                            <p>
+                                {{ event?.description || 'No description provided.' }}
+                            </p> -->
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Ticket Types -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+
+                        <div class="flex justify-between items-center">
+                            <h2 class="card-title">
+                                Ticket Types
+                            </h2>
+
+                            <button class="btn btn-primary btn-sm">
+                                Add Ticket Type
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Sold</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @for(ticket of event?.ticketTypes; track ticket.id) {
+                                    <tr>
+                                        <td>{{ ticket.name }}</td>
+                                        <td>€{{ ticket.price }}</td>
+                                        <td>{{ ticket.totalAvailable }}</td>
+                                        <td>0</td>
+
+                                        <td>
+                                            <button class="btn btn-ghost btn-xs">
+                                                Edit
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Orders -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+
+                        <h2 class="card-title">
+                            Recent Orders
+                        </h2>
+
+                        <div class="overflow-x-auto">
+                            <table class="table">
+
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Customer</th>
+                                        <th>Total</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr>
+                                        <td colspan="4" class="text-center text-base-content/60">
+                                            No orders yet
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="flex flex-col gap-6">
+
+                <!-- Sales -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+
+                        <h2 class="card-title">
+                            Sales Overview
+                        </h2>
+
+                        <div class="h-56 rounded-xl bg-base-200 flex items-center justify-center text-base-content/50">
+                            Chart Placeholder
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+
+                        <h2 class="card-title">
+                            Quick Actions
+                        </h2>
+
+                        <button class="btn btn-primary btn-block">
+                            Publish Event
+                        </button>
+
+                        <button class="btn btn-outline btn-block">
+                            Edit Event
+                        </button>
+
+                        <button class="btn btn-outline btn-block">
+                            View Public Page
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="card border border-error bg-error/10">
+                    <div class="card-body">
+
+                        <h2 class="card-title text-error">
+                            Danger Zone
+                        </h2>
+
+                        <button class="btn btn-error btn-outline">
+                            Cancel Event
+                        </button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
