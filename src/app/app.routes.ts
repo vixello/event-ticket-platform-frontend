@@ -42,6 +42,13 @@ export const routes: Routes = [
                 .then((m) => m.OrganizerDashboard),
     },
     {
+        path: 'organizer/events/:eventId',
+        canActivate: [organizerGuard],
+        loadComponent: () =>
+            import('./features/organizer/pages/event-managment/event-managment')
+                .then((m) => m.EventManagment),
+    },
+    {
         path: '**',
         redirectTo: 'events',
     },

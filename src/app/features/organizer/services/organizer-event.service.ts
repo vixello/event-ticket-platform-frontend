@@ -11,7 +11,6 @@ import { RestPage } from '../../../shared/models/RestPage';
 export class OrganizerEventService {
   constructor(private http: HttpClient) { }
 
-  //organizerId = 
   private apiUrl = 'http://localhost:8081/api/v1/events';
 
   createEvent(event: CreateEventDto): Observable<HttpResponse<CreateEventDto>> {
@@ -24,5 +23,9 @@ export class OrganizerEventService {
       .set('size', size.toString());
 
     return this.http.get<RestPage<ListOrganizerEvent>>(this.apiUrl, { params });
+  }
+
+  getEventById(eventId: String): Observable<ListOrganizerEvent> {
+    return this.http.get<ListOrganizerEvent>(`${this.apiUrl}/${eventId}`);
   }
 }
