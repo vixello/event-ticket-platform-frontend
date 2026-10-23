@@ -1,5 +1,5 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { AuthService } from './features/auth/auth.service';
@@ -9,7 +9,7 @@ import { authInterceptor } from './features/auth/auth.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(),
+    provideRouter(routes, withComponentInputBinding()), provideClientHydration(),
     provideAppInitializer(() => {
       const authService = inject(AuthService);
 
@@ -18,5 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
         withInterceptors([authInterceptor])
     )
+    
   ]
 };

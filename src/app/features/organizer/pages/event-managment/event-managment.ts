@@ -36,11 +36,10 @@ export class EventManagment {
       return;
     }
 
-    // Zakładam, że Twój serwis posiada metodę pobierającą pojedyncze wydarzenie po ID
     this.organizerEventService.getEventById(this.eventId).subscribe({
       next: (fetchedEvent) => {
         this.event = fetchedEvent;
-        this.cdr.detectChanges(); // Wymuszenie odświeżenia widoku (przydatne przy SSR/Zoneless)
+        this.cdr.detectChanges(); 
       },
       error: (err) => {
         console.error('Błąd podczas pobierania wydarzenia:', err);
