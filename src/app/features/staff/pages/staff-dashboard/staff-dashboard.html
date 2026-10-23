@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-base-300">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+
+        <!-- Header -->
+        <div class="mb-10">
+            <div class="badge badge-secondary badge-outline mb-3">
+                Staff Portal
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h1 class="text-4xl font-bold">
+                        Staff Management
+                    </h1>
+                    <p class="text-base-content/70 mt-2">
+                        Manage event staff, roles, and permissions.
+                    </p>
+                </div>
+
+                <button class="btn btn-primary">
+                    Add Staff Member
+                </button>
+            </div>
+        </div>
+
+        <!-- Staff List Table / Cards -->
+        <div class="card bg-base-100 shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Team Members</h2>
+
+                <div class="overflow-x-auto">
+                    <table class="table w-full">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (member of staffMembers; track member.id) {
+                                <tr>
+                                    <td class="font-semibold">{{ member.name }}</td>
+                                    <td>{{ member.email }}</td>
+                                    <td>
+                                        <span class="badge badge-ghost badge-sm">{{ member.role }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" [ngClass]="{
+                                            'badge-success': member.status === 'ACTIVE',
+                                            'badge-warning': member.status === 'PENDING'
+                                        }">
+                                            {{ member.status }}
+                                        </span>
+                                    </td>
+                                    <td class="text-right">
+                                        <button class="btn btn-ghost btn-xs">Manage</button>
+                                    </td>
+                                }
+                            @empty {
+                                <tr>
+                                    <td colspan="5" class="text-center py-6 text-base-content/60">
+                                        No staff members found.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
