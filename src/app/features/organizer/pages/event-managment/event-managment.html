@@ -20,11 +20,11 @@
                         </h1>
 
                         <span class="badge" [ngClass]="{
-                'badge-success': event?.status === 'PUBLISHED',
-                'badge-warning': event?.status === 'DRAFT',
-                'badge-error': event?.status === 'CANCELLED',
-                'badge-neutral': event?.status === 'COMPLETED'
-              }">
+                                    'badge-success': event?.status === 'PUBLISHED',
+                                    'badge-warning': event?.status === 'DRAFT',
+                                    'badge-error': event?.status === 'CANCELLED',
+                                    'badge-neutral': event?.status === 'COMPLETED'
+                                }">
                             {{ event?.status }}
                         </span>
                     </div>
@@ -170,7 +170,7 @@
                             <p class="text-sm text-base-content/60 mb-2">
                                 Description
                             </p>
-<!-- 
+                            <!-- 
                             <p>
                                 {{ event?.description || 'No description provided.' }}
                             </p> -->
@@ -299,7 +299,7 @@
                             Publish Event
                         </button>
 
-                        <button class="btn btn-outline btn-block">
+                        <button class="btn btn-outline btn-block" [routerLink]="['/organizer/events/update', event?.id]">
                             Edit Event
                         </button>
 
