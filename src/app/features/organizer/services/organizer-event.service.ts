@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreateEventDto } from '../models/create-event.model';
+import { OrganizerEvent } from '../models/organizer-event';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ListOrganizerEvent } from '../models/list-organizer-event';
@@ -13,8 +13,12 @@ export class OrganizerEventService {
 
   private apiUrl = 'http://localhost:8081/api/v1/events';
 
-  createEvent(event: CreateEventDto): Observable<HttpResponse<CreateEventDto>> {
-    return this.http.post<CreateEventDto>(this.apiUrl, event, { observe: 'response' });
+  createEvent(event: OrganizerEvent): Observable<HttpResponse<OrganizerEvent>> {
+    return this.http.post<OrganizerEvent>(this.apiUrl, event, { observe: 'response' });
+  }
+
+  updateEvent(event: OrganizerEvent): Observable<HttpResponse<OrganizerEvent>> {
+    return this.http.post<OrganizerEvent>(this.apiUrl, event, { observe: 'response' });
   }
 
   getEvents(page: number = 0, size: number = 10): Observable<RestPage<ListOrganizerEvent>> {

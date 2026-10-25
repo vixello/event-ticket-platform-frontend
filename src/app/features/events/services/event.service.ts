@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { EventDto } from "../models/event";
+import { Event } from "../models/event";
 import { EventStatus } from "../../../shared/models/base-event";
 
 @Injectable({
@@ -7,7 +7,7 @@ import { EventStatus } from "../../../shared/models/base-event";
 })
 
 export class EventService {
-    private events: EventDto[] = [
+    private events: Event[] = [
         {
             id: '1',
             name: 'Summer Music Festival',
@@ -46,15 +46,15 @@ export class EventService {
         },
     ];
 
-    getEvents(): EventDto[] {
+    getEvents(): Event[] {
         return this.events;
     }
 
-    getById(id: string): EventDto | undefined {
+    getById(id: string): Event | undefined {
         return this.events.find(e => e.id === id);
     }
 
-    searchEvents(searchQuery: String): EventDto[] {
+    searchEvents(searchQuery: String): Event[] {
         const normalizedQuery = searchQuery.toLowerCase();
 
         if (!normalizedQuery) {

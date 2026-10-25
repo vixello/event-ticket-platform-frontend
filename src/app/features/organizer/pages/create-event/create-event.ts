@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
-import { CreateEventDto} from '../../models/create-event.model';
+import { OrganizerEvent} from '../../models/organizer-event';
 import { EventStatus } from '../../../../shared/models/base-event';
 import { TicketType } from '../../../../shared/models/ticket-type';
 import { DecimalPipe } from '@angular/common';
@@ -21,7 +21,7 @@ export class CreateEventPage {
   constructor() {
     console.log('CREATE EVENT PAGE CREATED');
   }
-  event: CreateEventDto = {
+  event: OrganizerEvent = {
     name: '',
     start: '',
     end: '',

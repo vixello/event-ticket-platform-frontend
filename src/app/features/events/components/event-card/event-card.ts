@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { EventDto } from '../../models/event';
+import { Event } from '../../models/event';
 
 @Component({
   imports: [RouterLink, DatePipe],
@@ -10,5 +10,5 @@ import { EventDto } from '../../models/event';
 })
 
 export class EventCard {
-  event = input.required<EventDto>();
+  event = input.required<Event>();
 }
