@@ -17,8 +17,8 @@ export class OrganizerEventService {
     return this.http.post<OrganizerEvent>(this.apiUrl, event, { observe: 'response' });
   }
 
-  updateEvent(event: OrganizerEvent): Observable<HttpResponse<OrganizerEvent>> {
-    return this.http.post<OrganizerEvent>(this.apiUrl, event, { observe: 'response' });
+  updateEvent(eventId: String, event: OrganizerEvent): Observable<HttpResponse<OrganizerEvent>> {
+    return this.http.put<OrganizerEvent>(`${this.apiUrl}/${eventId}`, event, { observe: 'response' });
   }
 
   getEvents(page: number = 0, size: number = 10): Observable<RestPage<ListOrganizerEvent>> {
