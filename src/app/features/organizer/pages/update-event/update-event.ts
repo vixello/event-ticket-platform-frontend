@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, inject, Input, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
 import { OrganizerEvent } from '../../models/organizer-event';
 import { EventStatus } from '../../../../shared/models/base-event';
 import { TicketType } from '../../../../shared/models/ticket-type';
-import { DecimalPipe, isPlatformBrowser } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-update-event',
@@ -18,11 +18,13 @@ export class UpdateEventPage {
     constructor() {
         console.log('update EVENT PAGE updateD');
     }
-    @Input() eventId!: string;
+
+    eventId!: string;
+
+    private route = inject(ActivatedRoute);
 
     private readonly eventService = inject(OrganizerEventService);
     private readonly router = inject(Router);
-    private platformId = inject(PLATFORM_ID);
     private cdr = inject(ChangeDetectorRef);
 
     event: OrganizerEvent = {
@@ -45,10 +47,17 @@ export class UpdateEventPage {
     };
 
     ngOnInit(): void {
-        if (isPlatformBrowser(this.platformId)) {
-            this.initializeEvent();
-        }
+
+        this.route.paramMap.subscribe(params => {
+            const id = params.get('eventId');
+
+            if (id) {
+                this.eventId = id;
+                this.initializeEvent();
+            }
+        })
     }
+
     initializeEvent(): void {
         if (!this.eventId) {
             console.error('No event ID provided');
@@ -99,7 +108,7 @@ export class UpdateEventPage {
             return;
         }
 
-        this.eventService.updateEvent(this.event).subscribe({
+        this.eventService.updateEvent(this.eventId, this.event).subscribe({
             next: (response) => {
                 console.log('Response status:', response.status); // e.g., 200 or 201
 
