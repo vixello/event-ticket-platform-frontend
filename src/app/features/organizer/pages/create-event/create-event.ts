@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { OrganizerEventService } from '../../services/organizer-event.service';
-import { OrganizerEvent} from '../../models/organizer-event';
+import { OrganizerEvent } from '../../models/organizer-event';
 import { EventStatus } from '../../../../shared/models/base-event';
 import { TicketType } from '../../../../shared/models/ticket-type';
 import { DecimalPipe } from '@angular/common';
@@ -33,7 +33,7 @@ export class CreateEventPage {
   };
 
   newTicketType: TicketType = {
-    id:'',
+    id: '',
     name: '',
     description: '',
     price: 0,
@@ -54,7 +54,7 @@ export class CreateEventPage {
     });
 
     this.newTicketType = {
-      id:'',
+      id: '',
       name: '',
       description: '',
       price: 0,
@@ -66,25 +66,25 @@ export class CreateEventPage {
     this.event.ticketTypes.splice(index, 1);
   }
 
-createEvent(): void {
-  if (!this.isValid()) {
-    return;
-  }
-
-  this.eventService.createEvent(this.event).subscribe({
-    next: (response) => {
-      console.log('Response status:', response.status); // e.g., 200 or 201
-      
-      if (response.status === 200 || response.status === 201) {
-        alert('Event created successfully!');
-        this.router.navigate(['/organizer']);
-      }
-    },
-    error: (err) => {
-      console.error('Error creating event:', err);
+  createEvent(): void {
+    if (!this.isValid()) {
+      return;
     }
-  });
-}
+
+    this.eventService.createEvent(this.event).subscribe({
+      next: (response) => {
+        console.log('Response status:', response.status); // e.g., 200 or 201
+
+        if (response.status === 200 || response.status === 201) {
+          alert('Event created successfully!');
+          this.router.navigate(['/organizer']);
+        }
+      },
+      error: (err) => {
+        console.error('Error creating event:', err);
+      }
+    });
+  }
 
   private isValid(): boolean {
     if (!this.event.name.trim()) {
