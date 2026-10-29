@@ -1,20 +1,20 @@
 import { Component, signal, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OrganizerEventService } from '../../services/organizer-event.service';
-import { ListOrganizerEvent } from '../../models/list-organizer-event';
-import { NgClass } from '@angular/common';
-
+// import { ListOrganizerEvent } from '../../models/list-organizer-event';
 import { isPlatformBrowser } from '@angular/common';
+import { OrganizerEventCard } from '../../components/organizer-event-card/organizer-event-card';
+import { OrganizerEvent } from '../../models/organizer-event';
 
 @Component({
-  imports: [RouterLink, NgClass],
+  imports: [RouterLink, OrganizerEventCard],
   selector: 'app-organizer-dashboard',
   styleUrl: './organizer-dashboard.css',
   templateUrl: './organizer-dashboard.html',
 })
 
 export class OrganizerDashboard {
-  events: ListOrganizerEvent[] = []
+  events: OrganizerEvent[] = []
   totalElements = 0;
   currentPage = 0;
   pageSize = 10;

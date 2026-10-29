@@ -116,55 +116,7 @@
 
             <!-- Dynamic Event Cards -->
             @for (event of events; track event.id) {
-            <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="card-body">
-
-                    <div class="flex justify-between items-start gap-4">
-                        <h3 class="card-title">
-                            {{ event.name }}
-                        </h3>
-
-                        <span class="badge" [ngClass]="{
-                                'badge-success': event.status === 'PUBLISHED',
-                                'badge-warning': event.status === 'DRAFT',
-                                'badge-error': event.status === 'CANCELLED',
-                                'badge-neutral': event.status === 'COMPLETED'
-                            }">
-                            {{ event.status }}
-                        </span>
-                    </div>
-
-                    <p class="text-base-content/70">
-                        {{ event.start || 'No start date' }}
-                    </p>
-
-                    <p class="text-base-content/70">
-                        {{ event.venue }}
-                    </p>
-
-                    <div class="divider my-2"></div>
-
-                    <div class="flex justify-between">
-                        <div>
-                            <p class="text-sm text-base-content/60">
-                                Ticket Types
-                            </p>
-                            <p class="font-semibold">
-                                {{ event.ticketTypes?.length || 0 }} defined
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card-actions justify-end mt-4">
-                        <button
-                            class="btn btn-outline btn-sm hover:border-primary hover:text-primary transition-colors duration-200"
-                            [routerLink]="['/organizer/events', event.id]">
-                            Manage
-                        </button>
-                    </div>
-
-                </div>
-            </div>
+                <app-organizer-event-card [event]="event"/>
             } @empty {
             <!-- Empty state when no events exist -->
             <div class="col-span-full card bg-base-100 shadow-lg p-8 text-center">
