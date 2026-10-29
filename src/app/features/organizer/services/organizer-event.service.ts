@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { OrganizerEvent } from '../models/organizer-event';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ListOrganizerEvent } from '../models/list-organizer-event';
+// import { ListOrganizerEvent } from '../models/list-organizer-event';
 import { RestPage } from '../../../shared/models/RestPage';
 
 @Injectable({
@@ -21,15 +21,15 @@ export class OrganizerEventService {
     return this.http.put<OrganizerEvent>(`${this.apiUrl}/${eventId}`, event, { observe: 'response' });
   }
 
-  getEvents(page: number = 0, size: number = 10): Observable<RestPage<ListOrganizerEvent>> {
+  getEvents(page: number = 0, size: number = 10): Observable<RestPage<OrganizerEvent>> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
-    return this.http.get<RestPage<ListOrganizerEvent>>(this.apiUrl, { params });
+    return this.http.get<RestPage<OrganizerEvent>>(this.apiUrl, { params });
   }
 
-  getEventById(eventId: String): Observable<ListOrganizerEvent> {
-    return this.http.get<ListOrganizerEvent>(`${this.apiUrl}/${eventId}`);
+  getEventById(eventId: String): Observable<OrganizerEvent> {
+    return this.http.get<OrganizerEvent>(`${this.apiUrl}/${eventId}`);
   }
 }

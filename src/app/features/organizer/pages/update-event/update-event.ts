@@ -28,6 +28,7 @@ export class UpdateEventPage {
     private cdr = inject(ChangeDetectorRef);
 
     event: OrganizerEvent = {
+        id: this.eventId,
         name: '',
         start: '',
         end: '',

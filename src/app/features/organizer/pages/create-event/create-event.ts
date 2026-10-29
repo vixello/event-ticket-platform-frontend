@@ -21,7 +21,9 @@ export class CreateEventPage {
   constructor() {
     console.log('CREATE EVENT PAGE CREATED');
   }
+  
   event: OrganizerEvent = {
+    id: '',
     name: '',
     start: '',
     end: '',
