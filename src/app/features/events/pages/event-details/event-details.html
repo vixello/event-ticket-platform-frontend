@@ -1,9 +1,9 @@
-@if (event; as e) {
+@if (event(); as e) {
 
 <div class="max-w-6xl mx-auto px-4 py-8">
 
   <div class="relative overflow-hidden rounded-3xl">
-    <img [src]="event.imageUrl" [alt]="event.name" class="w-full h-[450px] object-cover" />
+    <img [src]="event()?.imageUrl" [alt]="event()?.name" class="w-full h-[450px] object-cover" />
 
     <div class="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent">
     </div>
@@ -14,12 +14,18 @@
       </div>
 
       <h1 class="text-5xl font-black mb-3">
-        {{ event.name }}
+        {{ event()?.name }}
       </h1>
 
       <p class="font-medium">
-        {{ event.start | date:'mediumDate' }},
-        {{ event.start | date:'shortTime' }}
+                       @if(event()?.start){
+                    {{ event()?.start | date:'mediumDate' }}
+                }
+                @else {
+                    Date to be announced
+                }
+        {{ event()?.start | date:'mediumDate' }},
+        {{ event()?.start | date:'shortTime' }}
       </p>
     </div>
   </div>
@@ -51,8 +57,8 @@
               Date
             </p>
             <p class="font-medium">
-              {{ event.start | date:'mediumDate' }},
-              {{ event.start | date:'shortTime' }}
+              {{ event()?.start | date:'mediumDate' }},
+              {{ event()?.start | date:'shortTime' }}
             </p>
           </div>
 
@@ -61,7 +67,7 @@
               Venue
             </p>
             <p class="font-medium">
-              {{ event.venue }}
+              {{ event()?.venue }}
             </p>
           </div>
 
