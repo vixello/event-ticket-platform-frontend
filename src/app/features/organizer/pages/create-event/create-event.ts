@@ -21,15 +21,17 @@ export class CreateEventPage {
   constructor() {
     console.log('CREATE EVENT PAGE CREATED');
   }
+
+  allowedCreationStatuses = [EventStatus.DRAFT, EventStatus.PUBLISHED];
   
   event: OrganizerEvent = {
     id: '',
     name: '',
-    start: '',
-    end: '',
+    start: null,
+    end: null,
     venue: '',
-    saleStart: '',
-    saleEnd: '',
+    saleStart: null,
+    saleEnd: null,
     status: EventStatus.DRAFT,
     ticketTypes: [],
   };
@@ -99,25 +101,25 @@ export class CreateEventPage {
       return false;
     }
 
-    if (!this.event.start) {
-      alert("Please fill in event's start date");
-      return false;
-    }
+    // if (!this.event.start) {
+    //   alert("Please fill in event's start date");
+    //   return false;
+    // }
 
-    if (!this.event.end) {
-      alert("Please fill in event's end date");
-      return false;
-    }
+    // if (!this.event.end) {
+    //   alert("Please fill in event's end date");
+    //   return false;
+    // }
 
-    if (!this.event.saleStart) {
-      alert("Please fill in event's sale start date");
-      return false;
-    }
+    // if (!this.event.saleStart) {
+    //   alert("Please fill in event's sale start date");
+    //   return false;
+    // }
 
-    if (!this.event.saleEnd) {
-      alert("Please fill in event's sale end date");
-      return false;
-    }
+    // if (!this.event.saleEnd) {
+    //   alert("Please fill in event's sale end date");
+    //   return false;
+    // }
 
     if (this.event.ticketTypes.length === 0) {
       alert("Please provide at least one ticket type");
@@ -125,5 +127,13 @@ export class CreateEventPage {
     }
 
     return true;
+  }
+
+  onEventStartChange(): void {
+    if (!this.event.start) {
+      this.event.end = null;
+      this.event.saleStart = null;
+      this.event.saleEnd = null;
+    }
   }
 }

@@ -72,7 +72,6 @@
                                 placeholder="Warsaw National Stadium" class="input input-bordered w-full" required />
                         </label>
 
-
                         <!-- Start -->
                         <label class="form-control">
                             <div class="label">
@@ -82,7 +81,12 @@
                             </div>
 
                             <input type="datetime-local" name="start" [(ngModel)]="event.start"
-                                class="input input-bordered w-full" required />
+                                (ngModelChange)="onEventStartChange()" class="input input-bordered w-full" />
+                            <div class="label">
+                                <span class="label-text-alt text-base-content/60 italic">
+                                    *If left blank, the date will be displayed as "To Be Announced".
+                                </span>
+                            </div>
                         </label>
 
 
@@ -93,9 +97,11 @@
                                     Event ends
                                 </span>
                             </div>
-
-                            <input type="datetime-local" name="end" [(ngModel)]="event.end"
-                                class="input input-bordered w-full" required />
+                            <div class="tooltip tooltip-error w-full"
+                                [attr.data-tip]="!event.start ? 'Please set the event start date first' : '' ">
+                                <input type="datetime-local" name="end" [(ngModel)]="event.end"
+                                    [disabled]="!event.start" class="input input-bordered w-full" />
+                            </div>
                         </label>
 
 
@@ -106,9 +112,13 @@
                                     Ticket sales start
                                 </span>
                             </div>
+                            <div class="tooltip tooltip-error w-full"
+                                [attr.data-tip]="!event.start && !event.end ? 'Please set the event start date and end date first' : '' ">
+                                <input type="datetime-local" name="saleStart" [(ngModel)]="event.saleStart"
+                                    [disabled]="!event.start && !event.end"
+                                    class="input input-bordered w-full disabled:bg-base-200 disabled:text-base-content/40" />
+                            </div>
 
-                            <input type="datetime-local" name="saleStart" [(ngModel)]="event.saleStart"
-                                class="input input-bordered w-full" required />
                         </label>
 
 
@@ -119,11 +129,32 @@
                                     Ticket sales end
                                 </span>
                             </div>
-
-                            <input type="datetime-local" name="saleEnd" [(ngModel)]="event.saleEnd"
-                                class="input input-bordered w-full" required />
+                            <div class="tooltip tooltip-error w-full"
+                                [attr.data-tip]="!event.start && !event.end ? 'Please set the event start date and end date first' : '' ">
+                                <input type="datetime-local" name="saleEnd" [(ngModel)]="event.saleEnd"
+                                    [disabled]="!event.start && !event.end"
+                                    class="input input-bordered w-full disabled:bg-base-200 disabled:text-base-content/40" />
+                            </div>
                         </label>
 
+                        <label class="form-control md:col-span-2">
+                            <div class="label">
+                                <span class="label-text font-medium">Event status</span>
+                            </div><br>
+                            <div class="label pt-0 pb-1">
+                                <span class="label-text-alt text-base-content/60 italic">
+                                    *Choose the initial visibility state of your event
+                                </span>
+                            </div>
+                            <select name="status" [(ngModel)] = "event.status" class="select select-bordered w-full" required="">
+                                @for(status of allowedCreationStatuses; track status){
+                                    <option [value]="status">
+                                        {{status}}
+                                    </option>
+                                }
+                            </select>
+
+                        </label>
                     </div>
 
                 </div>
