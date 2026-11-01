@@ -11,4 +11,6 @@ import { Event } from '../../models/event';
 
 export class EventCard {
   event = input.required<Event>();
+  imageUrl = 'https://picsum.photos/seed/music/600/400';
+
 }
