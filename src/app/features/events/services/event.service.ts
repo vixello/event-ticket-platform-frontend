@@ -1,53 +1,29 @@
 import { Injectable } from "@angular/core";
 import { Event } from "../models/event";
 import { EventStatus } from "../../../shared/models/base-event";
+import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { RestPage } from "../../../shared/models/RestPage";
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class EventService {
-    private events: Event[] = [
-        {
-            id: '1',
-            name: 'Summer Music Festival',
-            imageUrl: 'https://picsum.photos/seed/music/600/400',
-            start: '2026-08-15T18:00:00',
-            end: '2026-08-15T23:00:00',
-            venue: 'Warsaw National Stadium',
-            saleStart: '2026-06-01T09:00:00',
-            saleEnd: '2026-08-15T17:00:00',
-            status: EventStatus.PUBLISHED,
-            ticketTypes:  []
-        },
-        {
-            id: '2',
-            name: 'Tech Conference 2026',
-            imageUrl: 'https://picsum.photos/seed/music/600/400',
-            start: '2026-09-05T09:00:00',
-            end: '2026-09-05T18:00:00',
-            venue: 'EXPO XXI Warsaw',
-            saleStart: '2026-05-01T09:00:00',
-            saleEnd: '2026-09-05T08:00:00',
-            status: EventStatus.PUBLISHED,
-            ticketTypes:  []
-        },
-        {
-            id: '3',
-            name: 'City Food Festival',
-            imageUrl: 'https://picsum.photos/seed/music/600/400',
-            start: '2026-09-20T12:00:00',
-            end: '2026-09-20T20:00:00',
-            venue: 'Kraków Main Square',
-            saleStart: '2026-07-01T09:00:00',
-            saleEnd: '2026-09-20T11:00:00',
-            status: EventStatus.PUBLISHED,
-            ticketTypes: []
-        },
-    ];
 
-    getEvents(): Event[] {
-        return this.events;
+export class EventService {
+
+    constructor(private http: HttpClient) { }
+
+    private apiUrl = 'http://localhost:8081/api/v1/published-events';
+
+    private events: Event[] = [];
+
+    getEvents(page: number = 0, size: number = 10): Observable<RestPage<Event>> {
+        const params = new HttpParams()
+            .set('page', page.toString())
+            .set('size', size.toString());
+
+        return this.http.get<RestPage<Event>>(this.apiUrl, { params });
     }
 
     getById(id: string): Event | undefined {

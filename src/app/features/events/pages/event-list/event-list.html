@@ -18,7 +18,7 @@
 
     <!-- Search -->
     <div class="mb-8">
-      <app-event-search (search)="onSearch($event)"/>
+      <app-event-search (search)="onSearch($event)" />
     </div>
 
     <div class="grid gap-8 lg:grid-cols-[240px_1fr]">
@@ -30,9 +30,21 @@
 
       <!-- Events -->
       <div>
-        <app-event-grid  [events]="events"/>
+        <app-event-grid [events]="events" />
       </div>
 
+      @if(totalPages > 1){
+      <div class="flex items-center justify-center mt-12 gap-4">
+        <button class="btn btn-outline btn-sm" [disabled]="currentPage===0" (click)="previousPage()">
+          < Previous </button>
+
+            <span class="text-sm font-medium text-slate-600">
+              Page {{ currentPage + 1 }} of {{ totalPages }}
+            </span>
+            <button class="btn btn-outline btn-sm" [disabled]="currentPage >= totalPages -1" (click)="nextPage()">
+              < Next </button>
+      </div>
+      }
     </div>
 
   </div>
