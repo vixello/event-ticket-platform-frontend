@@ -17,17 +17,21 @@ export class EventService {
     private apiUrl = 'http://localhost:8081/api/v1/published-events';
 
     private events: Event[] = [];
-
-    getEvents(page: number = 0, size: number = 10): Observable<RestPage<Event>> {
-        const params = new HttpParams()
-            .set('page', page.toString())
-            .set('size', size.toString());
+    
+    getEvents(searchTerm: String = '', page: number = 0, size: number = 10): Observable<RestPage<Event>> {
+        const params = new HttpParams({
+            fromObject: {
+                page: page.toString(),
+                size: size.toString(),
+                ...(searchTerm && searchTerm.trim() !== '' ? { searchTerm: searchTerm.toString() } : {})
+            }
+        })
 
         return this.http.get<RestPage<Event>>(this.apiUrl, { params });
     }
 
-    getById(id: string): Event | undefined {
-        return this.events.find(e => e.id === id);
+    getById(id: string): Observable<Event>{
+        return this.http.get<Event>(`${this.apiUrl}/ ${id}`);
     }
 
     searchEvents(searchQuery: String): Event[] {
