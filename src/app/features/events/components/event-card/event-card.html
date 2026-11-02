@@ -4,10 +4,6 @@
 
         <!-- TOP ROW: badge + date -->
         <div class="flex items-center justify-between gap-3">
-            <div class="badge badge-primary">
-                {{ event().status }}
-            </div>
-
             <span class="text-sm text-base-content/60">
                 @if(event().start){
                     {{ event().start | date:'mediumDate' }}
