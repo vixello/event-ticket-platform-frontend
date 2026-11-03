@@ -32,6 +32,7 @@ export class UpdateEventPage {
         name: '',
         start: '',
         end: '',
+        description: '',
         venue: '',
         saleStart: '',
         saleEnd: '',

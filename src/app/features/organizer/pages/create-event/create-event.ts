@@ -29,6 +29,7 @@ export class CreateEventPage {
     name: '',
     start: null,
     end: null,
+    description: '',
     venue: '',
     saleStart: null,
     saleEnd: null,
