@@ -4,6 +4,7 @@ export interface BaseEvent {
     name: string;
     start: string | null;
     end: string | null;
+    description: string | null,
     venue: string;
     saleStart: string | null;
     saleEnd: string | null;
