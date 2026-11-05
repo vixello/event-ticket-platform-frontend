@@ -14,7 +14,7 @@ export const organizerGuard: CanActivateFn = () => {
   console.log('Browser:', isPlatformBrowser(platformId));
   console.log('Authenticated:', authService.isAuthenticated());
   console.log('Roles:', authService.roles);
-  console.log('Has ORGANIZER:', authService.hasRole('ORGANIZER'));
+  console.log('Has ORGANIZER:', authService.hasRole('ROLE_ORGANIZER'));
 
   if (!isPlatformBrowser(platformId)) {
     console.log('SSR -> ALLOW');
@@ -26,7 +26,7 @@ export const organizerGuard: CanActivateFn = () => {
     return router.createUrlTree(['/login']);
   }
 
-  if (!authService.hasRole('ORGANIZER')) {
+  if (!authService.hasRole('ROLE_ORGANIZER')) {
     console.log('BROWSER -> BLOCKED: ORGANIZER missing');
     return router.createUrlTree(['/events']);
   }
