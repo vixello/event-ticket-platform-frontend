@@ -1,36 +1,29 @@
 <a [routerLink]="['/events', event().id]"
-    class="card bg-base-100 border border-base-300 shadow-sm transition hover:-translate-y-1 hover:shadow-lg  hover:bg-base-200">
+    class="card bg-base-100 border border-base-300 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:bg-base-200">
+
+    <img [src]="imageUrl || '/assets/placeholder.jpg'" alt="{{ event().name }}" class="w-full h-48 object-cover" />
+
     <div class="card-body">
 
-        <!-- TOP ROW: badge + date -->
-        <div class="flex items-center justify-between gap-3">
-            <span class="text-sm text-base-content/60">
-                @if(event().start){
-                    {{ event().start | date:'mediumDate' }}
-                }
-                @else {
-                    Date to be announced
-                }
-            </span>
-        </div>
-
-        <!-- IMAGE: full width -->
-        <img [src]="imageUrl || '/assets/placeholder.jpg'" alt="{{ event().name }}"
-            class="w-full h-48 object-cover rounded-lg mt-3" />
-
-        <h2 class="card-title mt-2">
+        <h2 class="card-title">
             {{ event().name }}
         </h2>
 
         <p class="text-base-content/60">
-            📍 {{ event().venue }}
+            {{ event().venue }}
         </p>
 
-        <div class="card-actions justify-end">
-            <span class="btn btn-primary btn-sm">
-                View event
+
+        <div class="card-actions justify-end items-center">
+            <span class="text-sm text-base-content/60">
+                @if(event().start){
+                {{ event().start | date:'mediumDate' }}
+                } @else {
+                Date to be announced
+                }
             </span>
         </div>
 
     </div>
+
 </a>
