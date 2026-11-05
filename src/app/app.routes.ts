@@ -1,19 +1,22 @@
 import { Routes } from '@angular/router';
 import { organizerGuard } from './core/guards/organizer.guard';
+import { uuidGuard } from './core/guards/uuid.guard';
+import { attendeeGuard } from './core/guards/attendee.guard';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'events',
+        redirectTo: 'published-events',
         pathMatch: 'full'
     },
     {
-        path: 'events',
+        path: 'published-events',
         loadComponent: () => import('./features/events/pages/event-list/event-list')
             .then((m) => m.EventList)
     },
     {
         path: 'events/:id',
+        canActivate: [uuidGuard],
         loadComponent: () => import('./features/events/pages/event-details/event-details')
             .then((m) => m.EventDetails),
     },
@@ -36,7 +39,7 @@ export const routes: Routes = [
     },
     {
         path: 'organizer/events/update/:eventId',
-        canActivate: [organizerGuard],
+        canActivate: [organizerGuard, uuidGuard],
         loadComponent: () =>
             import('./features/organizer/pages/update-event/update-event')
                 .then((m) => m.UpdateEventPage)
@@ -50,13 +53,20 @@ export const routes: Routes = [
     },
     {
         path: 'organizer/events/:eventId',
-        canActivate: [organizerGuard],
+        canActivate: [organizerGuard, uuidGuard],
         loadComponent: () =>
             import('./features/organizer/pages/event-managment/event-managment')
                 .then((m) => m.EventManagment),
     },
     {
+        path: 'profile',
+        canActivate: [attendeeGuard],
+        loadComponent: () =>
+            import('./features/attendee/pages/attendee-profile')
+        .then((m) => m.AttendeeProfile),
+    },
+    {
         path: '**',
-        redirectTo: 'events',
+        redirectTo: 'published-events',
     },
 ];
