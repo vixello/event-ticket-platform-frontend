@@ -4,6 +4,7 @@ import { EventStatus } from "../../../shared/models/base-event";
 import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { RestPage } from "../../../shared/models/RestPage";
+import { environment } from "../../../../environment/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ export class EventService {
 
     constructor(private http: HttpClient) { }
 
-    private apiUrl = 'http://localhost:8081/api/v1/published-events';
+    private readonly baseUrl = environment.apiUrl;
 
     private events: Event[] = [];
     
@@ -27,11 +28,11 @@ export class EventService {
             }
         })
 
-        return this.http.get<RestPage<Event>>(this.apiUrl, { params });
+        return this.http.get<RestPage<Event>>(`${this.baseUrl}/published-events`, { params });
     }
 
     getById(id: string): Observable<Event>{
-        return this.http.get<Event>(`${this.apiUrl}/ ${id}`);
+        return this.http.get<Event>(`${this.baseUrl}/published-events/${id}`);
     }
 
     searchEvents(searchQuery: String): Event[] {
