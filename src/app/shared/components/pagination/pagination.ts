@@ -1,15 +1,13 @@
-import { Component, EventEmitter, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 @Component({
-    templateUrl: 'pagination.html',
-    selector: 'app-pagination'
+    selector: 'app-pagination',
+    templateUrl: './pagination.html',
 })
 
 export class Pagination{
-  currentPage = 0;
-  pageSize = 10;
-  totalElements = 0;
-  totalPages = 0;
+  @Input() currentPage = 0;
+  @Input() totalPages = 0;
 
   @Output() pageChange = new EventEmitter<number>();
   
