@@ -63,7 +63,27 @@ export const routes: Routes = [
         canActivate: [attendeeGuard],
         loadComponent: () =>
             import('./features/attendee/pages/attendee-profile')
-        .then((m) => m.AttendeeProfile),
+                .then((m) => m.AttendeeProfile),
+    },
+    {
+        path: 'published-events/:eventId/ticket-selection',
+        canActivate: [uuidGuard],
+        loadComponent: () =>
+            import('./features/events/pages/ticket-selection/ticket-selection')
+                .then((m) => m.TicketSelectionComponent),
+    },
+    {
+        path: 'checkout/:orderId',
+        loadComponent: () =>
+            import('./features/payments/pages/checkout/checkout')
+                .then((m) => m.CheckoutComponent),
+    },
+    {
+        path: 'payments',
+        // canActivate: [attendeeGuard],
+        loadComponent: () =>
+            import('./features/payments/pages/payment/payments')
+                .then((m) => m.PaymentsComponent),
     },
     {
         path: '**',

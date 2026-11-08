@@ -57,10 +57,7 @@
 
         <div class="card card-side bg-base-100 shadow-lg">
           <figure class="w-64">
-            <img
-              src="https://placehold.co/600x400"
-              class="object-cover h-full w-full"
-              alt="Event">
+            <img src="https://placehold.co/600x400" class="object-cover h-full w-full" alt="Event">
           </figure>
 
           <div class="card-body">
@@ -103,11 +100,12 @@
 
       <div class="overflow-x-auto">
         <table class="table bg-base-100 rounded-box">
+          @for (ticket of tickets; track ticket.id) {
           <thead>
             <tr>
-              <th>Event</th>
-              <th>Type</th>
-              <th>Status</th>
+              <th>{{ticket.ticketType.event}}</th>
+              <th>{{ticket.ticketType.name}}</th>
+              <th>{{ticket.status}}</th>
               <th>QR Code</th>
             </tr>
           </thead>
@@ -128,8 +126,15 @@
               </td>
             </tr>
           </tbody>
+          }
+
         </table>
       </div>
+
+      @if (totalPages > 0) {
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="fetchTickets($event)">
+      </app-pagination>
+      }
     </div>
 
     <!-- EVENT HISTORY -->
@@ -154,10 +159,7 @@
               Attended
             </p>
 
-            <progress
-              class="progress progress-success"
-              value="100"
-              max="100">
+            <progress class="progress progress-success" value="100" max="100">
             </progress>
           </div>
         </div>
