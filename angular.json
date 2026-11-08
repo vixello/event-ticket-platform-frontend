@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "event-ticket-platform": {
+    "eventmaster": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -64,10 +64,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "event-ticket-platform:build:production"
+              "buildTarget": "eventmaster:build:production"
             },
             "development": {
-              "buildTarget": "event-ticket-platform:build:development"
+              "buildTarget": "eventmaster:build:development"
             }
           },
           "defaultConfiguration": "development"
