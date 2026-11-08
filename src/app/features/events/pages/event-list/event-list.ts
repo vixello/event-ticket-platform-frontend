@@ -4,9 +4,10 @@ import { EventGrid } from '../../components/event-grid/event-grid';
 import { EventFilters } from '../../components/event-filters/event-filters';
 import { EventService } from '../../services/event.service';
 import { Event } from '../../models/event';
+import { Pagination } from '../../../../shared/components/pagination/pagination';
 
 @Component({
-  imports: [EventSearch, EventFilters, EventGrid],
+  imports: [EventSearch, EventFilters, EventGrid, Pagination],
   selector: 'app-event-list',
   templateUrl: './event-list.html',
 })
@@ -24,13 +25,13 @@ export class EventList {
   searchTerm: string = ''
 
   ngOnInit(): void {
-    this.fetchEvents(this.searchTerm, this.currentPage);
+    this.fetchEvents(this.currentPage);
   }
 
-  fetchEvents(searchTerm: string = '', page: number = 0): void {
+  fetchEvents(page: number = 0): void {
     this.currentPage = page;
 
-    this.eventService.getEvents(searchTerm, this.currentPage, this.pageSize).subscribe({
+    this.eventService.getEvents(this.searchTerm, this.currentPage, this.pageSize).subscribe({
       next: (pageData: any) => {
         this.events = pageData.content
         this.totalElements = pageData.totalElements
@@ -42,22 +43,10 @@ export class EventList {
     })
   }
 
-  nextPage(): void {
-    if (this.currentPage < this.totalPages - 1) {
-      this.fetchEvents(this.searchTerm, this.currentPage + 1)
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 0) {
-      this.fetchEvents(this.searchTerm, this.currentPage - 1)
-    }
-  }
-
   onSearch(searchQuery: string) {
     this.searchTerm = searchQuery;
     this.currentPage = 0;
 
-    this.fetchEvents(this.searchTerm, this.currentPage)
+    this.fetchEvents(this.currentPage)
   }
 }

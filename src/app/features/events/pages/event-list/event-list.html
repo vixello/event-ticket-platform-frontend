@@ -29,29 +29,13 @@
 
         <!-- Pagination Controls -->
         @if (totalPages > 1) {
-          <div class="flex items-center justify-center gap-4 pt-6 border-t border-base-content/10">
-            <button 
-              class="btn btn-outline btn-sm" 
-              [disabled]="currentPage === 0" 
-              (click)="previousPage()">
-              « Previous
-            </button>
-
-            <span class="text-sm font-semibold text-base-content/80">
-              Page {{ currentPage + 1 }} of {{ totalPages }}
-            </span>
-
-            <button 
-              class="btn btn-outline btn-sm" 
-              [disabled]="currentPage >= totalPages - 1" 
-              (click)="nextPage()">
-              Next »
-            </button>
-          </div>
+          <app-pagination
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageChange)="fetchEvents($event)">
+          </app-pagination>
         }
       </div>
-
     </div>
-
   </div>
 </section>
