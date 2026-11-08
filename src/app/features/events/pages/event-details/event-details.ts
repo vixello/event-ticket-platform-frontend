@@ -1,9 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { Event } from '../../models/event';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-event-details',
@@ -14,10 +13,14 @@ export class EventDetails implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private eventService: EventService,
+
   ) { }
 
   event = signal<Event | null>(null);
+  selectedTicketTypeId = signal<string | null>(null);
+  isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -29,10 +32,15 @@ export class EventDetails implements OnInit {
     this.eventService.getById(id).subscribe({
       next: (fetchedEvent) => {
         this.event.set(fetchedEvent);
+        if (fetchedEvent.ticketTypes && fetchedEvent.ticketTypes.length > 0) {
+          this.selectedTicketTypeId.set(fetchedEvent.ticketTypes[0].id);
+        }
       }
     })
-
-    console.log('Event ID:', id);
-    console.log('Event:', this.event);
+  }
+  onBuyTickets(eventId: string): void{
+    this.router.navigate([`published-events`, eventId, `ticket-selection`],{ state: {
+      event: this.event
+    }})
   }
 }

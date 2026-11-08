@@ -92,7 +92,8 @@
               <div class="space-y-2">
                 @for (ticket of e.ticketTypes; track ticket.id) {
                 <div
-                  class="flex items-center justify-between p-3.5 rounded-2xl border border-base-300 bg-base-200/40 hover:border-primary transition-all cursor-pointer group">
+                  class="flex items-center justify-between p-3.5 rounded-2xl border border-base-300 bg-base-200/40 hover:border-primary transition-all cursor-pointer group"
+                  onclick="selectTicketType">
                   <div>
                     <p class="font-bold text-sm group-hover:text-primary transition-colors">{{ ticket.name }}</p>
                     <span class="text-xs text-base-content/60">Available</span>
@@ -105,7 +106,7 @@
               </div>
             </div>
 
-            <button class="btn btn-primary btn-block text-lg shadow-lg shadow-primary/20 mt-4">
+            <button class="btn btn-primary btn-block text-lg shadow-lg shadow-primary/20 mt-4" (click)="onBuyTickets(e.id)">
               Buy Tickets Now
             </button>
           </div>
