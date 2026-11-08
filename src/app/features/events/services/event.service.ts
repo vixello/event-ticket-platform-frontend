@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Event } from "../models/event";
-import { EventStatus } from "../../../shared/models/base-event";
 import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { EMPTY, Observable } from "rxjs";
 import { RestPage } from "../../../shared/models/RestPage";
 import { environment } from "../../../../environment/environment";
+import { TicketTypeCart } from "../../../shared/models/ticket-type-cart";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +18,7 @@ export class EventService {
     private readonly baseUrl = environment.apiUrl;
 
     private events: Event[] = [];
-    
+
     getEvents(searchTerm: String = '', page: number = 0, size: number = 10): Observable<RestPage<Event>> {
         const params = new HttpParams({
             fromObject: {
@@ -31,7 +31,7 @@ export class EventService {
         return this.http.get<RestPage<Event>>(`${this.baseUrl}/published-events`, { params });
     }
 
-    getById(id: string): Observable<Event>{
+    getById(id: string): Observable<Event> {
         return this.http.get<Event>(`${this.baseUrl}/published-events/${id}`);
     }
 
@@ -48,7 +48,13 @@ export class EventService {
         );
     }
 
-    updateEvents() {
+    purchaseTickets(cartItems: TicketTypeCart[], eventId: string): Observable<any> {
+        if (!cartItems || cartItems.length === 0 || !eventId) return EMPTY;
 
+        const payload = {
+            items: cartItems
+        };
+
+        return this.http.post<any>(`${this.baseUrl}/events/${eventId}/ticket-types/purchases`, payload);
     }
 }

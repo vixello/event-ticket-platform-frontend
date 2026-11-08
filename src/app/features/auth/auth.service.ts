@@ -3,11 +3,14 @@ import Keycloak from 'keycloak-js';
 
 import { keycloakConfig } from './auth.config';
 import { isPlatformBrowser } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
+
+    constructor(private router: Router, private route: ActivatedRoute) { }
 
     private readonly keycloak = new Keycloak(keycloakConfig);
     private readonly authenticated = signal(false);
@@ -34,6 +37,10 @@ export class AuthService {
         console.log('Authenticated:', authenticated);
         console.log('Username:', this.username);
         console.log('Roles:', this.roles);
+
+        if (authenticated) {
+            this.onLoginSuccess();
+        }
         return authenticated;
     }
 
@@ -65,6 +72,26 @@ export class AuthService {
         } catch (error) {
             console.error('Failed to refresh Keycloak token', error);
             return false;
+        }
+    }
+
+    onLoginSuccess(): void {
+        if (!isPlatformBrowser(this.platformId)) return;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get(`returnUrl`) || `/`;
+
+        const pendingCart = localStorage.getItem(`pending_cart`);
+
+        if (pendingCart) {
+            const cartData = JSON.parse(pendingCart);
+
+            this.router.navigate([`/checkout`], {
+                state: { cartData },
+                replaceUrl: true
+            });
+        } else {
+            this.router.navigateByUrl(returnUrl, { replaceUrl: true });
         }
     }
 
