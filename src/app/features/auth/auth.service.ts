@@ -50,7 +50,7 @@ export class AuthService {
 
     async login(): Promise<void> {
         await this.keycloak.login({
-            redirectUri: window.location.origin,
+            redirectUri: window.location.href,
         });
     }
 
@@ -85,7 +85,8 @@ export class AuthService {
 
         if (pendingCart) {
             const cartData = JSON.parse(pendingCart);
-
+            localStorage.removeItem('pending_cart');
+            
             this.router.navigate([`/checkout`], {
                 state: { cartData },
                 replaceUrl: true
