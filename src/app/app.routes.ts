@@ -73,7 +73,7 @@ export const routes: Routes = [
                 .then((m) => m.TicketSelectionComponent),
     },
     {
-        path: 'checkout/:orderId',
+        path: 'checkout',
         loadComponent: () =>
             import('./features/payments/pages/checkout/checkout')
                 .then((m) => m.CheckoutComponent),
