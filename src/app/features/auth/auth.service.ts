@@ -4,6 +4,7 @@ import Keycloak from 'keycloak-js';
 import { keycloakConfig } from './auth.config';
 import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from '../../shared/services/LocalStorageService';
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +18,7 @@ export class AuthService {
     private platformId = inject(PLATFORM_ID);
 
     readonly isAuthenticated = this.authenticated.asReadonly();
+    localStorage = inject(LocalStorageService);
 
     async init(): Promise<boolean> {
 
@@ -81,12 +83,12 @@ export class AuthService {
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get(`returnUrl`) || `/`;
 
-        const pendingCart = localStorage.getItem(`pending_cart`);
+        const pendingCart = this.localStorage.getItem(`pending_cart`);
 
         if (pendingCart) {
             const cartData = JSON.parse(pendingCart);
-            localStorage.removeItem('pending_cart');
-            
+            this.localStorage.removeItem('pending_cart');
+
             this.router.navigate([`/checkout`], {
                 state: { cartData },
                 replaceUrl: true

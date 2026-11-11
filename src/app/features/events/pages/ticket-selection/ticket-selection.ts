@@ -1,12 +1,13 @@
 
-import { Component, computed, output, signal } from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { TicketType } from '../../../../shared/models/ticket-type';
-import { TicketTypeCart } from '../../../../shared/models/ticket-type-cart';
+import { TicketCartItem } from '../../../../shared/models/ticket-cart-item';
 import { AuthService } from '../../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../../models/event';
 import { EventService } from '../../services/event.service';
+import { LocalStorageService } from '../../../../shared/services/LocalStorageService';
 
 @Component({
     selector: 'app-ticket-selection',
@@ -23,6 +24,7 @@ export class TicketSelectionComponent {
     ) { }
 
     cartData: any = {};
+    localStorage = inject(LocalStorageService);
 
     ngOnInit(): void {
         const navState = history.state;
@@ -42,21 +44,21 @@ export class TicketSelectionComponent {
             }
         }
 
-        const pendingCart = localStorage.getItem("pending_cart");
+        const pendingCart = this.localStorage.getItem("pending_cart");
         if (pendingCart && this.authService.isAuthenticated()) {
             this.cartData = JSON.parse(pendingCart);
-            localStorage.removeItem("pending_cart");
+            this.localStorage.removeItem("pending_cart");
 
             if (this.cartData.selectedTickets) {
                 const restoreQuantities: Record<string, number> = {};
-                this.cartData.selectedTickets.forEach((item: TicketTypeCart) => {
-                    restoreQuantities[item.ticketTypeId] = item.quantity;
+                this.cartData.selectedTickets.forEach((item: TicketCartItem) => {
+                    restoreQuantities[item.ticketType.id] = item.quantity;
                 });
 
                 this.selectedQuantities.set(restoreQuantities);
             }
 
-            localStorage.removeItem("pending_cart");
+            this.localStorage.removeItem("pending_cart");
             this.router.navigate([`/checkout`], {
                 state: { cartData: this.cartData },
                 replaceUrl: true
@@ -68,17 +70,17 @@ export class TicketSelectionComponent {
     event = signal<Event | null>(null);
     ticketTypes = signal<TicketType[]>([]);
 
-    proceedToCheckout = output<TicketTypeCart[]>();
+    proceedToCheckout = output<TicketCartItem[]>();
     backToEvent = output<void>();
 
     // State: Map of ticketTypeId -> selected quantity
     selectedQuantities = signal<Record<string, number>>({});
 
-    cartItems = computed<TicketTypeCart[]>(() => {
+    cartItems = computed<TicketCartItem[]>(() => {
         const quantities = this.selectedQuantities();
         return this.ticketTypes()
             .map((type) => ({
-                ticketTypeId: type.id,
+                ticketType: type,
                 quantity: quantities[type.id] || 0,
             }))
             .filter((item) => item.quantity > 0);
@@ -135,7 +137,7 @@ export class TicketSelectionComponent {
         }
 
         if (!this.authService.isAuthenticated()) {
-            localStorage.setItem('pending_cart', JSON.stringify(cartData));
+            this.localStorage.setItem('pending_cart', JSON.stringify(cartData));
 
             this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
             return;

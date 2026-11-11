@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../features/auth/auth.service';
+import { LocalStorageService } from '../../services/LocalStorageService';
 
 @Component({
   selector: 'app-navbar',
@@ -9,6 +10,7 @@ import { AuthService } from '../../../features/auth/auth.service';
 })
 export class Navbar {
   protected authService = inject(AuthService);
+  localStorage = inject(LocalStorageService);
 
   get profileLink(): string {
     switch (true) {
@@ -31,4 +33,20 @@ export class Navbar {
         return "/";
     }
   }
+
+  totalItemsCount = computed(() => {
+    const pendingCart = this.localStorage.getItem('pending_cart');
+
+    if(!pendingCart) return 0;
+
+    try{
+      const cart = JSON.parse(pendingCart);
+      if(!cart.selectedTickets) return 0;
+
+      return cart.selectedTickets.reduce((acc: number, item: any) => acc + item.quantity, 0)
+    }
+    catch{
+      return 0;
+    }
+  })
 }
