@@ -1,12 +1,21 @@
-import { Component, OnInit, signal, OnDestroy, input } from '@angular/core';
+import { Component, OnInit, signal, OnDestroy, input, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environment/environment';
 import { AuthService } from '../../../auth/auth.service';
 import { EventService } from '../../../events/services/event.service';
-import { TicketTypeCart } from '../../../../shared/models/ticket-type-cart';
+import { TicketCartItem } from '../../../../shared/models/ticket-cart-item';
 import { Event } from '../../../events/models/event';
+import { LocalStorageService } from '../../../../shared/services/LocalStorageService';
+import { Ticket } from '../../../../shared/models/ticket';
+
+export interface OrderSummary {
+    event: Event;
+    selectedTickets: TicketCartItem[];
+    serviceFee: number;
+    total: number;
+}
 
 @Component({
     selector: 'app-checkout',
@@ -14,6 +23,7 @@ import { Event } from '../../../events/models/event';
     imports: [CommonModule, DatePipe],
     templateUrl: './checkout.html'
 })
+
 export class CheckoutComponent implements OnInit, OnDestroy {
     constructor(
         private route: ActivatedRoute,
@@ -22,7 +32,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         private authService: AuthService,
     ) { }
 
-    selectedTickets = signal<TicketTypeCart[]>([]);
+    selectedTickets = signal<TicketCartItem[]>([]);
     currentEvent = signal<Event | null>(null);
 
     orderId = signal<string | null>(null);
@@ -31,8 +41,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     timeLeft = signal<number>(600);
     private timerInterval: any;
 
-    orderSummary = signal<any>(null);
-    private readonly baseUrl = environment.apiUrl;
+    orderSummary = signal<OrderSummary | null>(null);
+    localStorage = inject(LocalStorageService);
 
     ngOnInit(): void {
         const id = this.route.snapshot.paramMap.get('orderId');
@@ -40,6 +50,42 @@ export class CheckoutComponent implements OnInit, OnDestroy {
             this.orderId.set(id);
         }
         this.startTimer();
+
+        let parsedCartData: any = null;
+        const navState = history.state;
+
+        if (navState && navState.cartData) {
+            parsedCartData = navState.cartData;
+        }
+        else {
+            try {
+                const localData = this.localStorage.getItem("pending_cart");
+                if (localData) {
+                    parsedCartData = JSON.parse(localData);
+                    this.localStorage.removeItem("pending_cart");
+                }
+            } catch (e) {
+                console.error("Failed to parse pending_cart", e);
+            }
+        }
+
+        if (parsedCartData) {
+            const total = parsedCartData.selectedTickets.reduce((acc: number, ticket: TicketCartItem) => {
+                return acc + (ticket.ticketType.price * ticket.quantity)
+            })
+
+            const serviceFee = 1;
+            const grandTotal = total + serviceFee
+            const summary: OrderSummary = {
+                event: parsedCartData.event,
+                selectedTickets: parsedCartData.selectedTickets,
+                serviceFee: serviceFee,
+                total: grandTotal
+            };
+            this.orderSummary.set(summary);
+            this.currentEvent.set(summary.event);
+            this.selectedTickets.set(summary.selectedTickets);
+        }
     }
 
     ngOnDestroy(): void {

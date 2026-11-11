@@ -1,10 +1,11 @@
 <div class="max-w-5xl mx-auto px-4 py-8">
-  
+
   <!-- Top Timer / Warning Banner (Ticketmaster style) -->
   <div class="alert alert-warning shadow-sm mb-8 flex items-center justify-between rounded-2xl">
     <div class="flex items-center gap-3">
       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <div>
         <h3 class="font-bold text-sm">Time remaining to complete your purchase</h3>
@@ -23,7 +24,7 @@
 
     <!-- Left Column: Delivery & Payment Details -->
     <div class="space-y-6">
-      
+
       <!-- Delivery Method Card -->
       <div class="card bg-base-100 border border-base-300 shadow-sm">
         <div class="card-body p-6">
@@ -35,7 +36,8 @@
               <input type="radio" name="delivery" checked class="radio radio-primary" />
               <div>
                 <span class="font-bold text-sm block">Mobile Ticket (Free)</span>
-                <span class="text-xs text-base-content/60">Access your tickets straight from your phone. Safely stored in your account.</span>
+                <span class="text-xs text-base-content/60">Access your tickets straight from your phone. Safely stored
+                  in your account.</span>
               </div>
             </label>
           </div>
@@ -48,7 +50,7 @@
           <h2 class="text-lg font-bold mb-4 flex items-center gap-2">
             <span class="badge badge-primary badge-sm">2</span> Payment Method
           </h2>
-          
+
           <div class="space-y-3">
             <div class="flex items-center gap-3 p-4 rounded-2xl border border-primary bg-primary/5 cursor-pointer">
               <input type="radio" name="payment" checked class="radio radio-primary" />
@@ -72,55 +74,60 @@
           </h2>
 
           @if (orderSummary(); as summary) {
-            <div class="space-y-4">
-              <div>
-                <h3 class="font-extrabold text-base">{{ summary.eventName }}</h3>
-                <p class="text-xs text-base-content/70 mt-1">{{ summary.venue }}</p>
-                <p class="text-xs font-semibold text-primary mt-1">{{ summary.date | date:'medium' }}</p>
-              </div>
-
-              <div class="divider my-1"></div>
-
-              <!-- Ticket details -->
-              <div class="flex justify-between text-sm">
-                <span class="text-base-content/70">{{ summary.ticketTypeName }} x {{ summary.quantity }}</span>
-                <span class="font-bold">${{ summary.ticketPrice }}</span>
-              </div>
-
-              <!-- Fees -->
-              <div class="flex justify-between text-sm">
-                <span class="text-base-content/70">Service Fee</span>
-                <span class="font-bold">${{ summary.serviceFee }}</span>
-              </div>
-
-              <div class="divider my-1"></div>
-
-              <!-- Total -->
-              <div class="flex justify-between text-lg font-black">
-                <span>Total</span>
-                <span class="text-primary">${{ summary.total }}</span>
-              </div>
-
-              <button 
-                (click)="completeCheckout()" 
-                [disabled]="isLoading()"
-                class="btn btn-primary btn-block text-lg shadow-lg shadow-primary/20 mt-4">
-                @if (isLoading()) {
-                  <span class="loading loading-spinner"></span>
-                  Processing...
-                } @else {
-                  Place Order
-                }
-              </button>
-
-              <p class="text-[11px] text-center text-base-content/50 mt-2">
-                By clicking Place Order, you agree to our terms and conditions. No refunds or exchanges.
-              </p>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-extrabold text-base">{{ summary.event.name }}</h3>
+              <p class="text-xs text-base-content/70 mt-1">{{ summary.event.venue }}</p>
+              <p class="text-xs font-semibold text-primary mt-1">{{ summary.event.start | date:'medium' }}</p>
             </div>
+
+            <div class="divider my-1"></div>
+
+            <!-- Ticket details -->
+            @for (ticket of summary.selectedTickets; track ticket.ticketType.id ){
+            <div class="flex justify-between text-sm">
+              <span class="text-base-content/70">{{ ticket.ticketType.name }} x {{ ticket.quantity }}</span>
+              <span class="font-bold">${{ ticket.ticketType.price }}</span>
+            </div>
+            }
+
+            <!-- Fees -->
+            <div class="flex justify-between text-sm">
+              <span class="text-base-content/70">Service Fee</span>
+              <span class="font-bold">${{ summary.serviceFee }}</span>
+            </div>
+
+            <div class="divider my-1"></div>
+
+            <!-- Total -->
+            <div class="flex justify-between text-lg font-black">
+              <span>Total</span>
+              <span class="text-primary">${{ summary.total }}</span>
+            </div>
+
+            <button (click)="completeCheckout()" [disabled]="isLoading()"
+              class="btn btn-primary btn-block text-lg shadow-lg shadow-primary/20 mt-4">
+              @if (isLoading()) {
+              <span class="loading loading-spinner"></span>
+              Processing...
+              } @else {
+              Place Order
+              }
+            </button>
+
+            <p class="text-[11px] text-center text-base-content/50 mt-2">
+              By clicking Place Order, you agree to our terms and conditions. No refunds or exchanges.
+            </p>
+          </div>
           } @else {
-            <div class="flex justify-center py-8">
-              <span class="loading loading-spinner loading-lg text-primary"></span>
-            </div>
+          <div class="text-center py-8 space-y-4">
+            @if (isLoading()) {
+            <span class="loading loading-spinner loading-lg text-primary"></span>
+            } @else {
+            <p class="text-base-content/70">No active order summary found or your session expired.</p>
+            <a routerLink="/published-events" class="btn btn-primary btn-sm">Browse Events</a>
+            }
+          </div>
           }
 
         </div>

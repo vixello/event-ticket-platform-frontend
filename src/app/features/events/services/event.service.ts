@@ -4,7 +4,7 @@ import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { EMPTY, Observable } from "rxjs";
 import { RestPage } from "../../../shared/models/RestPage";
 import { environment } from "../../../../environment/environment";
-import { TicketTypeCart } from "../../../shared/models/ticket-type-cart";
+import { TicketCartItem } from "../../../shared/models/ticket-cart-item";
 
 @Injectable({
     providedIn: 'root'
@@ -48,7 +48,7 @@ export class EventService {
         );
     }
 
-    purchaseTickets(cartItems: TicketTypeCart[], eventId: string): Observable<any> {
+    purchaseTickets(cartItems: TicketCartItem[], eventId: string): Observable<any> {
         if (!cartItems || cartItems.length === 0 || !eventId) return EMPTY;
 
         const payload = {
