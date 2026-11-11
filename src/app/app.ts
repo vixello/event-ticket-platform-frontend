@@ -10,5 +10,5 @@ import { Footer } from "./shared/components/footer/footer";
   templateUrl: './app.html',
 })
 export class App {
-  protected readonly title = signal('event-ticket-platform');
+  protected readonly title = signal('eventmaster');
 }
