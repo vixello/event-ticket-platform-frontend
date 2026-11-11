@@ -39,8 +39,9 @@ export class EventDetails implements OnInit {
     })
   }
   onBuyTickets(eventId: string): void{
+    const eventClean = JSON.parse(JSON.stringify(this.event()))
     this.router.navigate([`published-events`, eventId, `ticket-selection`],{ state: {
-      event: this.event
+      event: eventClean
     }})
   }
 }
