@@ -6,66 +6,66 @@
         Filters
       </h2>
 
-      <button class="btn btn-ghost btn-xs">
+      <button type="button" (click)="onClearFilters()" class="btn btn-ghost btn-xs">
         Clear
       </button>
     </div>
 
     <div class="divider my-1"></div>
 
-    <label class="form-control w-full">
-
-      <div class="flex gap-3 flex-wrap">
-        <!-- FROM -->
-        <div class="flex flex-col flex-1">
-          <div class="label">
-            <span class="label-text">From</span>
-          </div>
-          <input type="date" class="input input-bordered w-full" />
+    <!-- Date Range Filters -->
+    <div class="flex gap-3 flex-wrap">
+      <!-- FROM -->
+      <div class="flex flex-col flex-1">
+        <div class="label">
+          <span class="label-text text-xs">From</span>
         </div>
-
-        <!-- TO -->
-        <div class="flex flex-col flex-1">
-          <div class="label">
-            <span class="label-text">To</span>
-          </div>
-          <input type="date" class="input input-bordered w-full" />
-        </div>
+        <input type="date" name="filterDateFrom" [(ngModel)]="dateFrom" (change)="onFilterChange()"
+          class="input input-bordered input-sm w-full text-xs" />
       </div>
 
+      <!-- TO -->
+      <div class="flex flex-col flex-1">
+        <div class="label">
+          <span class="label-text text-xs">To</span>
+        </div>
+        <input type="date" name="filterDateTo" [(ngModel)]="dateTo" (change)="onFilterChange()"
+          class="input input-bordered input-sm w-full text-xs" />
+      </div>
+    </div>
+
+    <!-- Location Filter -->
+    <label class="form-control w-full mt-2">
+      <div class="label">
+        <span class="label-text text-xs font-medium">Location</span>
+      </div>
+      <input type="text" placeholder="City or venue" class="input input-bordered input-sm w-full" />
     </label>
 
-    <label class="form-control w-full">
+    <!-- Categories -->
+    <div class="form-control mt-2">
       <div class="label">
-        <span class="label-text">Location</span>
-      </div>
-
-      <input type="text" placeholder="City or venue" class="input input-bordered w-full" />
-    </label>
-
-    <div class="form-control">
-      <div class="label">
-        <span class="label-text">Category</span>
+        <span class="label-text text-xs font-medium">Category</span>
       </div>
 
       <label class="flex items-center gap-3 cursor-pointer py-1">
-        <input type="checkbox" class="checkbox checkbox-primary" />
-        <span class="label-text">Music</span>
+        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" />
+        <span class="text-sm">Music</span>
       </label>
 
       <label class="flex items-center gap-3 cursor-pointer py-1">
-        <input type="checkbox" class="checkbox checkbox-primary" />
-        <span class="label-text">Sports</span>
+        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" />
+        <span class="text-sm">Sports</span>
       </label>
 
       <label class="flex items-center gap-3 cursor-pointer py-1">
-        <input type="checkbox" class="checkbox checkbox-primary" />
-        <span class="label-text">Business</span>
+        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" />
+        <span class="text-sm">Business</span>
       </label>
 
       <label class="flex items-center gap-3 cursor-pointer py-1">
-        <input type="checkbox" class="checkbox checkbox-primary" />
-        <span class="label-text">Arts & Culture</span>
+        <input type="checkbox" class="checkbox checkbox-primary checkbox-sm" />
+        <span class="text-sm">Arts & Culture</span>
       </label>
     </div>
 

@@ -1,9 +1,73 @@
 <section class="min-h-screen bg-base-200 py-12 px-4 sm:px-6 lg:px-8">
+
+  <!-- Top Toolbar: Date Range Button + Search Bar aligned perfectly -->
+  <div class="flex flex-col sm:flex-row items-center gap-3 mb-8 w-full max-w-7xl mx-auto">
+    
+    <!-- SINGLE DATE RANGE BUTTON (Opens Modal) -->
+    <button type="button" (click)="dateModal.showModal()" 
+            class="btn btn-outline border-base-300 bg-base-100 font-normal normal-case w-full sm:w-auto h-12 min-h-0 justify-between gap-3 px-4 shadow-sm shrink-0">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span class="text-xs text-base-content/70">Dates:</span>
+        <span class="text-xs font-semibold">
+          {{ dateFrom || 'Any' }} — {{ dateTo || 'Any' }}
+        </span>
+      </div>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    <!-- TOP SEARCH COMPONENT (Matches height) -->
+    <div class="w-full flex-1">
+      <app-event-search-top (search)="onSearch($event.toString())" />
+    </div>
+  </div>
+
+  <!-- DAISYUI MODAL FOR DATE RANGE -->
+  <dialog #dateModal class="modal">
+    <div class="modal-box bg-base-100 border border-base-300 shadow-xl max-w-md rounded-xl">
+      <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-sm bg-primary inline-block"></span>
+        Select Date Range
+      </h3>
+
+      <div class="space-y-4 py-2">
+        <div class="form-control">
+          <label class="label text-xs font-medium text-base-content/70">From Date</label>
+          <input name="dateFrom" type="date" [(ngModel)]="dateFrom" class="input input-bordered w-full text-sm font-semibold" />
+        </div>
+
+        <div class="form-control">
+          <label class="label text-xs font-medium text-base-content/70">To Date</label>
+          <input name="dateTo" type="date" [(ngModel)]="dateTo" class="input input-bordered w-full text-sm font-semibold" />
+        </div>
+      </div>
+
+      <div class="modal-action flex justify-between items-center mt-6">
+        <button type="button" class="btn btn-ghost btn-sm text-error" (click)="clearDates(); dateModal.close()">
+          Clear Dates
+        </button>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-sm btn-outline" (click)="dateModal.close()">Cancel</button>
+          <button type="button" class="btn btn-sm btn-primary px-5" (click)="applyDates(dateModal)">Apply Filter</button>
+        </div>
+      </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+
+  <app-image-carousel></app-image-carousel>
+  
   <div class="mx-auto max-w-7xl">
 
     <!-- Page heading -->
     <div class="mb-10 pb-6 border-b border-base-content/10">
-      <p class="mb-2 text-4xl  font-semibold uppercase tracking-wider text-primary">
+      <p class="mb-2 text-4xl font-semibold uppercase tracking-wider text-primary">
         Discover events
       </p>
       <p class="mt-3 max-w-2xl text-base text-base-content/70">
@@ -11,7 +75,7 @@
       </p>
     </div>
 
-    <!-- Search -->
+    <!-- Search (Secondary if needed, or keep your main grid layout) -->
     <div class="mb-8">
       <app-event-search (search)="onSearch($event)" />
     </div>
@@ -20,7 +84,7 @@
 
       <!-- Filters -->
       <aside>
-        <app-event-filters />
+        <app-event-filters (filterChange)="onSidebarFilterChange($event)"/>
       </aside>
 
       <!-- Events -->
@@ -29,11 +93,8 @@
 
         <!-- Pagination Controls -->
         @if (totalPages > 1) {
-          <app-pagination
-            [currentPage]="currentPage"
-            [totalPages]="totalPages"
-            (pageChange)="fetchEvents($event)">
-          </app-pagination>
+        <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="fetchEvents($event)">
+        </app-pagination>
         }
       </div>
     </div>

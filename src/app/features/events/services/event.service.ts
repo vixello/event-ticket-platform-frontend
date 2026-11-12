@@ -19,14 +19,24 @@ export class EventService {
 
     private events: Event[] = [];
 
-    getEvents(searchTerm: String = '', page: number = 0, size: number = 10): Observable<RestPage<Event>> {
-        const params = new HttpParams({
-            fromObject: {
-                page: page.toString(),
-                size: size.toString(),
-                ...(searchTerm && searchTerm.trim() !== '' ? { searchTerm: searchTerm.toString() } : {})
-            }
-        })
+    getEvents(searchTerm: String = '', page: number = 0, size: number = 10, dateFrom?: string, dateTo?: string):
+        Observable<RestPage<Event>> {
+        let paramsObj: any = {
+            page: page.toString(),
+            size: size.toString(),
+        };
+
+        if (searchTerm && searchTerm.trim() !== '') {
+            paramsObj.searchTerm = searchTerm;
+        }
+        if (dateFrom && dateFrom.trim() !== '') {
+            paramsObj.dateFrom = dateFrom;
+        }
+        if (dateTo && dateTo.trim() !== '') {
+            paramsObj.dateTo = dateTo;
+        }
+
+        const params = new HttpParams({ fromObject: paramsObj });
 
         return this.http.get<RestPage<Event>>(`${this.baseUrl}/published-events`, { params });
     }
