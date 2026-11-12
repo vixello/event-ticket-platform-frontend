@@ -1,71 +1,72 @@
-<div class="navbar bg-base-100/80 backdrop-blur border-b border-base-300 px-6">
+<div class="navbar bg-base-100/90 backdrop-blur-md border-b border-base-300 px-8">
 
+  <!-- Logo -->
   <div class="navbar-start">
-    <a routerLink="/events" class="text-2xl font-black tracking-tight text-primary">
+    <a routerLink="/events" class="text-xl font-bold tracking-tight text-primary flex items-center gap-2">
       Eventmaster
     </a>
   </div>
 
+  <!-- Center Links -->
   <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal gap-2 px-1">
+    <ul class="menu menu-horizontal gap-1 px-1 font-medium text-sm">
       <li>
-        <a routerLink="/events">Events</a>
+        <a routerLink="/events" class="rounded-md hover:bg-base-200/60 active:bg-base-200">Events</a>
       </li>
-
       <li>
-        <a>About</a>
+        <a class="rounded-md hover:bg-base-200/60 active:bg-base-200">About</a>
       </li>
     </ul>
   </div>
 
-  <div class="navbar-end gap-3">
+  <!-- End Actions -->
+  <div class="navbar-end gap-2">
 
-    <a routerLink="/checkout" class="btn btn-ghost btn-circle">
+    <!-- Cart Button -->
+    <a routerLink="/checkout" class="btn btn-ghost btn-sm btn-square rounded-md hover:bg-base-200">
       <div class="indicator">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
-        <!-- Licznik (badge) - wyświetla się tylko jeśli totalItemsCount > 0 -->
         @if (totalItemsCount() > 0) {
-        <span class="badge badge-sm badge-primary indicator-item">{{ totalItemsCount() }}</span>
+          <span class="badge badge-xs badge-primary indicator-item">{{ totalItemsCount() }}</span>
         }
-
       </div>
     </a>
+
     @if (!authService.isAuthenticated()) {
 
-    <a routerLink="/login" class="btn btn-ghost">
-      Log in
-    </a>
+      <a routerLink="/login" class="btn btn-ghost btn-sm font-medium rounded-md">
+        Log in
+      </a>
 
-    <a routerLink="/register" class="btn btn-primary rounded-full px-6">
-      Sign up
-    </a>
+      <a routerLink="/register" class="btn btn-primary btn-sm font-medium rounded-md px-4 shadow-none">
+        Sign up
+      </a>
 
     } @else {
 
-    <div class="dropdown dropdown-end">
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-sm font-medium rounded-md gap-2">
+          <div class="w-6 h-6 rounded-md bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+            {{ authService.username?.charAt(0).toUpperCase() }}
+          </div>
+          {{ authService.username }}
+        </div>
 
-      <div tabindex="0" role="button" class="btn btn-ghost">
-        {{ authService.username }}
+        <ul tabindex="0" class="menu dropdown-content bg-base-100 border border-base-300 rounded-lg z-10 w-48 p-1.5 shadow-lg mt-2 text-sm">
+          <li>
+            <a [routerLink]="profileLink" class="rounded-md">{{profileLabel}}</a>
+          </li>
+          <div class="divider my-1"></div>
+          <li>
+            <button (click)="authService.logout()" class="rounded-md text-error hover:bg-error/10">
+              Logout
+            </button>
+          </li>
+        </ul>
       </div>
-
-      <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-10 w-52 p-2 shadow">
-
-        <li>
-          <a [routerLink]="profileLink">{{profileLabel}}</a>
-        </li>
-
-        <li>
-          <button (click)="authService.logout()">
-            Logout
-          </button>
-        </li>
-
-      </ul>
-
-    </div>
 
     }
 
