@@ -1,10 +1,10 @@
 <div class="flex flex-col gap-3 sm:flex-row">
 
   <div class="join w-full">
-    <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Search events..."
+    <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="emitSearch()" placeholder="Search events..."
       class="input input-bordered join-item w-full" />
 
-    <button type="button" (click)="onSearch()" class="btn btn-primary join-item">
+    <button type="button" (click)="emitSearch()" class="btn btn-primary join-item">
       Search
     </button>
   </div>

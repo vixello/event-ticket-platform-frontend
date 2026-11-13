@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { EventSearch } from '../../components/event-search/event-search';
 import { EventGrid } from '../../components/event-grid/event-grid';
 import { EventFilters } from '../../components/event-filters/event-filters';
@@ -6,11 +6,10 @@ import { EventService } from '../../services/event.service';
 import { Event } from '../../models/event';
 import { Pagination } from '../../../../shared/components/pagination/pagination';
 import { EventsComponent } from '../../components/image-carousel/image-carousel';
-import { EventSearchTop } from '../../components/event-search-top/event-search-top';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [EventSearch, EventFilters, EventGrid, Pagination, EventsComponent, EventSearchTop, FormsModule],
+  imports: [EventSearch, EventFilters, EventGrid, Pagination, EventsComponent, FormsModule],
   selector: 'app-event-list',
   templateUrl: './event-list.html',
 })
@@ -28,6 +27,7 @@ export class EventList {
   searchTerm: string = ''
   dateFrom: string = "";
   dateTo: string = "";
+  @ViewChild('discoverSection') discoverSection!: ElementRef;
 
   ngOnInit(): void {
     this.fetchEvents(this.currentPage);
@@ -52,6 +52,7 @@ export class EventList {
     this.currentPage = 0;
 
     this.fetchEvents(this.currentPage)
+    this.scrollToEvents();
   }
 
   // Add these methods to your EventList class:
@@ -60,6 +61,7 @@ export class EventList {
     modal.close();
     this.currentPage = 0;
     this.fetchEvents(this.currentPage);
+    this.scrollToEvents();
   }
 
   clearDates(): void {
@@ -68,10 +70,22 @@ export class EventList {
     this.currentPage = 0;
     this.fetchEvents(this.currentPage);
   }
+
   onSidebarFilterChange(filters: { dateFrom: string; dateTo: string }) {
     this.dateFrom = filters.dateFrom;
     this.dateTo = filters.dateTo;
     this.currentPage = 0;
     this.fetchEvents(this.currentPage);
+  }
+
+  private scrollToEvents(): void {
+    setTimeout(() => {
+      if (this.discoverSection && this.discoverSection.nativeElement) {
+        this.discoverSection.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100); // 100ms delay ensures elements are fully rendered after data loads
   }
 }
