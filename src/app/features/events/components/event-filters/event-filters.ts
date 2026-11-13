@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -7,19 +7,31 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './event-filters.html',
 })
-export class EventFilters {
-  dateFrom: string = '';
-  dateTo: string = '';
+export class EventFilters implements OnChanges {
+  @Input() dateFrom: string = '';
+  @Input() dateTo: string = '';
+
+  formDateFrom: string = '';
+  formDateTo: string = '';
 
   @Output() filterChange = new EventEmitter<{ dateFrom: string; dateTo: string }>();
 
-  onFilterChange() {
-    this.filterChange.emit({ dateFrom: this.dateFrom, dateTo: this.dateTo });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dateFrom']) {
+      this.formDateFrom = this.dateFrom || '';
+    }
+    if (changes['dateTo']) {
+      this.formDateTo = this.dateTo || '';
+    }
+  }
+
+  onDateChange() {
+    this.filterChange.emit({ dateFrom: this.formDateFrom, dateTo: this.formDateTo });
   }
 
   onClearFilters() {
-    this.dateFrom = '';
-    this.dateTo = '';
+    this.formDateFrom = '';
+    this.formDateTo = '';
     this.filterChange.emit({ dateFrom: '', dateTo: '' });
   }
 }

@@ -20,7 +20,7 @@
         <div class="label">
           <span class="label-text text-xs">From</span>
         </div>
-        <input type="date" name="filterDateFrom" [(ngModel)]="dateFrom" (change)="onFilterChange()"
+        <input type="date" name="filterDateFrom" [(ngModel)]="formDateFrom" (change)="onDateChange()"
           class="input input-bordered input-sm w-full text-xs" />
       </div>
 
@@ -29,7 +29,7 @@
         <div class="label">
           <span class="label-text text-xs">To</span>
         </div>
-        <input type="date" name="filterDateTo" [(ngModel)]="dateTo" (change)="onFilterChange()"
+        <input type="date" name="filterDateTo" [(ngModel)]="formDateTo" (change)="onDateChange()"
           class="input input-bordered input-sm w-full text-xs" />
       </div>
     </div>
