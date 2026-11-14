@@ -1,0 +1,28 @@
+<dialog #modalRef class="modal">
+  @if (ticket) {
+    <div class="modal-box">
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      </form>
+      
+      <h3 class="text-lg font-bold">Ticket: {{ ticket.id }}</h3>
+      
+      @if (qrCodeUrl) {
+        <div class="flex justify-center my-4">
+          <img
+            [src]="qrCodeUrl"
+            alt="QR Code"
+            class="w-48 h-48 object-contain"
+          />
+        </div>
+      }
+
+      <p><strong>Venue:</strong> {{ ticket.ticketType?.event?.venue }}</p>
+      <p><strong>Type:</strong> {{ ticket.ticketType?.name }}</p>
+    </div>
+  }
+  
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>

@@ -21,4 +21,12 @@ export class AttendeeService {
 
         return this.http.get<RestPage<Ticket>>(`${this.baseUrl}/tickets`, {params});
     }
+
+    getTicket(id: string): Observable<Ticket>{
+        return this.http.get<Ticket>(`${this.baseUrl}/tickets/${id}`)
+    }
+
+    getTicketQrCode(id: string): Observable<Blob>{
+        return this.http.get(`${this.baseUrl}/tickets/${id}/qr-codes`, {responseType: 'blob'})
+    }
 }
