@@ -1,4 +1,4 @@
-import { Component, inject, PLATFORM_ID, ChangeDetectorRef } from "@angular/core";
+import { Component, inject, PLATFORM_ID, ChangeDetectorRef, ViewChild } from "@angular/core";
 import { Ticket } from "../../../../shared/models/ticket";
 import { AttendeeService } from "../../services/attendee.service";
 import { Pagination } from "../../../../shared/components/pagination/pagination";
@@ -22,6 +22,8 @@ export class AttendeeProfile {
 
     selectedTicket: Ticket | null = null;
 
+    @ViewChild('ticketModal') ticketModal!: TicketDetails;
+
     ngOnInit(): void {
         if (isPlatformBrowser(this.platformId)) {
             this.fetchTickets(this.currentPage);
@@ -32,19 +34,19 @@ export class AttendeeProfile {
         this.currentPage = page;
         this.attendeeService.listTickets(this.currentPage, this.pageSize).subscribe({
             next: (pageData: any) => {
-                console.log("RAW API RESPONSE:", pageData);
                 this.tickets = pageData.content ? [...pageData.content] : [];
                 this.totalElements = pageData.totalElements
                 this.totalPages = pageData.totalPages
 
                 this.cdr.markForCheck();
-                console.log("ASSIGNED TICKETS ARRAY:", this.tickets);
             },
             error: (err) => { console.error("Error occured while fetching user tickers ", err) }
         })
     }
 
     openModalForTicket(ticket: Ticket) {
+
+        this.ticketModal.open(ticket);
         this.selectedTicket = ticket;
     }
 }

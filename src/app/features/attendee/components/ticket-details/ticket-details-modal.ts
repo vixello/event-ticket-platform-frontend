@@ -15,11 +15,16 @@ export class TicketDetails {
     private cdr = inject(ChangeDetectorRef);
 
 
-    @Input() ticket: Ticket | null = null;
+    ticket: Ticket | null = null;
     qrCodeUrl: string | null = null;
 
     @ViewChild('modalRef') modalRef!: ElementRef<HTMLDialogElement>;
-
+    
+    open(ticket: Ticket) {
+        this.ticket = ticket;
+        this.loadQrCodeAndOpen(ticket.id);
+    }
+    
     ngOnChanges(changes: SimpleChanges) {
         if (changes['ticket'] && this.ticket) {
             this.loadQrCodeAndOpen(this.ticket.id);

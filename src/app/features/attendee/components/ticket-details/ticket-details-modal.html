@@ -1,28 +1,66 @@
 <dialog #modalRef class="modal">
   @if (ticket) {
-    <div class="modal-box">
+    <div class="modal-box bg-slate-900 text-slate-100 p-0 overflow-hidden shadow-2xl border border-slate-800 rounded-2xl max-w-sm">
+      
+      <!-- Modal Close Button -->
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3 text-slate-400 hover:text-white z-10">✕</button>
       </form>
-      
-      <h3 class="text-lg font-bold">Ticket: {{ ticket.id }}</h3>
-      
-      @if (qrCodeUrl) {
-        <div class="flex justify-center my-4">
-          <img
-            [src]="qrCodeUrl"
-            alt="QR Code"
-            class="w-48 h-48 object-contain"
-          />
-        </div>
-      }
 
-      <p><strong>Venue:</strong> {{ ticket.ticketType?.event?.venue }}</p>
-      <p><strong>Type:</strong> {{ ticket.ticketType?.name }}</p>
+      <!-- Ticket Header (Event Branding) -->
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white relative">
+        <div class="badge badge-sm badge-info font-semibold uppercase tracking-wider mb-2">Verified Mobile Ticket</div>
+        <h3 class="text-xl font-extrabold truncate">{{ ticket.ticketType?.event?.name || 'Live Event Pass' }}</h3>
+        <p class="text-xs text-blue-100 opacity-90 mt-1">{{ ticket.ticketType?.event?.venue || 'Venue TBA' }}</p>
+      </div>
+
+      <!-- Ticket Body / QR Code Section -->
+      <div class="p-6 flex flex-col items-center bg-slate-900">
+        
+        <!-- Animated / Glowing QR Code Container -->
+        <div class="bg-white p-4 rounded-xl shadow-inner border-2 border-blue-500/30 flex justify-center items-center my-2 relative">
+          @if (qrCodeUrl) {
+            <img
+              [src]="qrCodeUrl"
+              alt="Ticket QR Code"
+              class="w-48 h-48 object-contain"
+            />
+          } @else {
+            <div class="w-48 h-48 flex items-center justify-center">
+              <span class="loading loading-spinner loading-md text-blue-600"></span>
+            </div>
+          }
+        </div>
+
+        <p class="text-[11px] text-slate-400 tracking-widest uppercase mt-2">Scan at the venue entrance</p>
+
+        <!-- Divider stub line -->
+        <div class="w-full border-t border-dashed border-slate-700 my-4"></div>
+
+        <!-- Ticket Metadata Grid -->
+        <div class="w-full grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span class="text-slate-400 text-xs block uppercase">Ticket Type</span>
+            <span class="font-bold text-slate-200">{{ ticket.ticketType?.name || 'General Admission' }}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 text-xs block uppercase">Ticket ID</span>
+            <span class="font-mono text-xs text-slate-300 truncate block">{{ ticket.id }}</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer / Security Note -->
+      <div class="bg-slate-950 px-6 py-3 text-center text-[10px] text-slate-500 border-t border-slate-800/80">
+        SafeTix™ • Protected Barcode • Do Not Screenshot
+      </div>
+
     </div>
   }
   
-  <form method="dialog" class="modal-backdrop">
+  <!-- Backdrop -->
+  <form method="dialog" class="modal-backdrop bg-black/60 backdrop-blur-sm">
     <button>close</button>
   </form>
 </dialog>
