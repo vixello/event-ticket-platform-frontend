@@ -62,7 +62,10 @@ export class EventService {
         if (!cartItems || cartItems.length === 0 || !eventId) return EMPTY;
 
         const payload = {
-            items: cartItems
+            items: cartItems.map(item => ({
+                ticketTypeId: item.ticketType.id,
+                quantity: item.quantity
+            }))
         };
 
         return this.http.post<any>(`${this.baseUrl}/events/${eventId}/ticket-types/purchases`, payload);

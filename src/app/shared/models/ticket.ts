@@ -1,7 +1,7 @@
 import { TicketTypeAttendee } from "./ticket-type-attendee";
 
 export interface Ticket {
-    id: String;
+    id: string;
     status: TicketStatus;
     ticketType: TicketTypeAttendee;
 }

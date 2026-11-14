@@ -72,7 +72,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         if (parsedCartData) {
             const total = parsedCartData.selectedTickets.reduce((acc: number, ticket: TicketCartItem) => {
                 return acc + (ticket.ticketType.price * ticket.quantity)
-            })
+            }, 0)
 
             const serviceFee = 1;
             const grandTotal = total + serviceFee
@@ -115,6 +115,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     completeCheckout(): void {
 
+        console.log('completeCheckout');
         if (!this.authService.isAuthenticated()) {
             this.router.navigate(['/login'], {
                 queryParams: { returnUrl: this.router.url }
@@ -130,16 +131,18 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         }
 
         this.isLoading.set(true);
-        const id = this.orderId();
-        if (!id) return;
+        // const id = this.orderId();
+        // if (!id) return;
 
 
         this.eventService.purchaseTickets(tickets, eventId).subscribe({
             next: (response) => {
                 this.isLoading.set(false);
-                if (response && response.redirectUri) {
-                    window.location.href = response.redirectUri;
-                }
+                /*                 if (response && response.redirectUri) {
+                                    window.location.href = response.redirectUri;
+                                } */
+                console.log('Tickets purchased successfully:', response);
+                this.router.navigate(['/attendee/profile']);
             },
             error: (err) => {
                 this.isLoading.set(false);
