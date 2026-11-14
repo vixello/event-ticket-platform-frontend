@@ -62,7 +62,7 @@ export const routes: Routes = [
         path: 'profile',
         canActivate: [attendeeGuard],
         loadComponent: () =>
-            import('./features/attendee/pages/attendee-profile')
+            import('./features/attendee/pages/attendee-profile/attendee-profile')
                 .then((m) => m.AttendeeProfile),
     },
     {

@@ -100,34 +100,32 @@
 
       <div class="overflow-x-auto">
         <table class="table bg-base-100 rounded-box">
-          @for (ticket of tickets; track ticket.id) {
           <thead>
             <tr>
-              <th>{{ticket.ticketType.event}}</th>
-              <th>{{ticket.ticketType.name}}</th>
-              <th>{{ticket.status}}</th>
-              <th>QR Code</th>
+              <th>Event</th>
+              <th>Ticket Type</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
-
           <tbody>
+            @for (ticket of tickets; track ticket.id) {
             <tr>
-              <td>Summer Festival</td>
-              <td>VIP</td>
+              <td>{{ ticket.ticketType?.event?.name || 'Event Name' }}</td>
+              <td>{{ ticket.ticketType?.name }}</td>
               <td>
                 <span class="badge badge-success">
-                  Active
+                  {{ ticket.status || 'Active' }}
                 </span>
               </td>
               <td>
-                <button class="btn btn-sm btn-primary">
+                <button class="btn btn-sm btn-primary" (click)="openModalForTicket(ticket)">
                   Show
                 </button>
               </td>
             </tr>
+            }
           </tbody>
-          }
-
         </table>
       </div>
 
@@ -169,3 +167,5 @@
 
   </div>
 </div>
+
+<app-ticket-details [ticket]="selectedTicket"></app-ticket-details>

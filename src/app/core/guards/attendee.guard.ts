@@ -6,7 +6,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 import { AuthService } from '../../features/auth/auth.service';
 
-export const attendeeGuard: CanActivateFn = () => {
+export const attendeeGuard: CanActivateFn = async () => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const platformId = inject(PLATFORM_ID);
@@ -15,6 +15,8 @@ export const attendeeGuard: CanActivateFn = () => {
     console.log('SSR -> ALLOW');
     return true;
   }
+  
+  await authService.waitUntilInitialized();
 
   if (!authService.isAuthenticated()) {
     console.log('BROWSER -> BLOCKED: not authenticated');

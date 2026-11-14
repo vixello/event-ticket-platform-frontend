@@ -1,71 +1,83 @@
 import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
 import Keycloak from 'keycloak-js';
-
 import { keycloakConfig } from './auth.config';
 import { isPlatformBrowser } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LocalStorageService } from '../../shared/services/LocalStorageService';
+import { filter, firstValueFrom, Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-
-    constructor(private router: Router, private route: ActivatedRoute) { }
+    constructor(private router: Router) { }
 
     private readonly keycloak = new Keycloak(keycloakConfig);
     private readonly authenticated = signal(false);
+    private readonly initialized = signal(false); // Track init state
     private platformId = inject(PLATFORM_ID);
-
-    readonly isAuthenticated = this.authenticated.asReadonly();
     localStorage = inject(LocalStorageService);
 
-    async init(): Promise<boolean> {
+    readonly isAuthenticated = this.authenticated.asReadonly();
+    readonly isInitialized = this.initialized.asReadonly();
 
+    async init(): Promise<boolean> {
         if (!isPlatformBrowser(this.platformId)) {
+            this.initialized.set(true);
             return false;
         }
 
-        const authenticated = await this.keycloak.init({
-            onLoad: 'check-sso',
-            // onLoad: 'login-required',
-            pkceMethod: 'S256',
-            redirectUri: window.location.href,
-            checkLoginIframe: false
-        });
+        try {
+            const authenticated = await this.keycloak.init({
+                onLoad: 'check-sso',
+                pkceMethod: 'S256',
+                redirectUri: window.location.href,
+                checkLoginIframe: false,
+            });
 
-        this.authenticated.set(authenticated);
-        console.log('Keycloak initialized');
-        console.log('Authenticated:', authenticated);
-        console.log('Username:', this.username);
-        console.log('Roles:', this.roles);
-
-        if (authenticated) {
-            this.onLoginSuccess();
+            this.authenticated.set(authenticated);
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if (authenticated && (urlParams.has('code') || urlParams.has('state'))) {
+                this.onLoginSuccess();
+            }
+        } catch (error) {
+            console.error('Keycloak init failed', error);
+        } finally {
+            this.initialized.set(true); // Mark initialization as complete no matter what
         }
-        return authenticated;
+
+        return this.authenticated();
     }
 
-    get token(): string | undefined {
-        return this.keycloak.token;
+    // Helper to let guards wait until Keycloak finishes initializing
+    async waitUntilInitialized(): Promise<void> {
+        if (!isPlatformBrowser(this.platformId)) return;
+        while (!this.initialized()) {
+            await new Promise((resolve) => setTimeout(resolve, 50));
+        }
     }
 
-    async login(): Promise<void> {
-        await this.keycloak.login({
-            redirectUri: window.location.href,
-        });
-    }
+    get token(): string | undefined { return this.keycloak.token; }
+    get roles(): string[] { return this.keycloak.realmAccess?.roles ?? []; }
+    hasRole(role: string): boolean { return this.keycloak.hasRealmRole(role); }
 
-    async register(): Promise<void> {
-        await this.keycloak.register({
-            redirectUri: window.location.origin,
-        });
-    }
+    async login(): Promise<void> { await this.keycloak.login({ redirectUri: window.location.href }); }
+    async logout(): Promise<void> { await this.keycloak.logout({ redirectUri: window.location.origin }); }
+    async register(): Promise<void> { await this.keycloak.register({ redirectUri: window.location.origin, }); }
 
-    async logout(): Promise<void> {
-        await this.keycloak.logout({
-            redirectUri: window.location.origin,
-        });
+    onLoginSuccess(): void {
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get('returnUrl') || '/';
+        const pendingCart = this.localStorage.getItem('pending_cart');
+
+        if (pendingCart) {
+            const cartData = JSON.parse(pendingCart);
+            this.localStorage.removeItem('pending_cart');
+            this.router.navigate(['/checkout'], { state: { cartData }, replaceUrl: true });
+        } else if (returnUrl) {
+            this.router.navigateByUrl(returnUrl, { replaceUrl: true });
+        }
     }
 
     async updateToken(): Promise<boolean> {
@@ -74,27 +86,6 @@ export class AuthService {
         } catch (error) {
             console.error('Failed to refresh Keycloak token', error);
             return false;
-        }
-    }
-
-    onLoginSuccess(): void {
-        if (!isPlatformBrowser(this.platformId)) return;
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const returnUrl = urlParams.get(`returnUrl`) || `/`;
-
-        const pendingCart = this.localStorage.getItem(`pending_cart`);
-
-        if (pendingCart) {
-            const cartData = JSON.parse(pendingCart);
-            this.localStorage.removeItem('pending_cart');
-
-            this.router.navigate([`/checkout`], {
-                state: { cartData },
-                replaceUrl: true
-            });
-        } else {
-            this.router.navigateByUrl(returnUrl, { replaceUrl: true });
         }
     }
 
@@ -108,13 +99,5 @@ export class AuthService {
 
     get userId(): string | undefined {
         return this.keycloak.subject;
-    }
-
-    get roles(): string[] {
-        return this.keycloak.realmAccess?.roles ?? [];
-    }
-
-    hasRole(role: string): boolean {
-        return this.keycloak.hasRealmRole(role);
     }
 }
