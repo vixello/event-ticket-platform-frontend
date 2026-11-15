@@ -7,9 +7,11 @@ import { Event } from '../../models/event';
 import { Pagination } from '../../../../shared/components/pagination/pagination';
 import { EventsComponent } from '../../components/image-carousel/image-carousel';
 import { FormsModule } from '@angular/forms';
+import { UpcomingEvents } from '../../components/upcoming-event/upcoming-events';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  imports: [EventSearch, EventFilters, EventGrid, Pagination, EventsComponent, FormsModule],
+  imports: [EventSearch, EventFilters, EventGrid, Pagination, EventsComponent, FormsModule, UpcomingEvents, DatePipe],
   selector: 'app-event-list',
   templateUrl: './event-list.html',
 })

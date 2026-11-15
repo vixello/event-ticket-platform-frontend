@@ -1,29 +1,36 @@
 <a [routerLink]="['/events', event().id]"
-    class="card bg-base-100 border border-base-300 shadow-sm transition hover:-translate-y-1 hover:shadow-lg hover:bg-base-200">
+  class="group card rounded-lg bg-base-100 border border-base-content/15 shadow-sm overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-rose-600/50">
 
-    <img [src]="imageUrl || '/assets/placeholder.jpg'" alt="{{ event().name }}" class="w-full h-48 object-cover" />
+  <div class="relative overflow-hidden aspect-[16/10] bg-base-300">
+    <img [src]="imageUrl || '/assets/placeholder.jpg'" alt="{{ event().name }}"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60"></div>
+  </div>
 
-    <div class="card-body">
+  <div class="card-body p-4">
+    <h2 class="card-title text-base font-bold tracking-tight group-hover:text-rose-600 transition-colors">
+      {{ event().name }}
+    </h2>
 
-        <h2 class="card-title">
-            {{ event().name }}
-        </h2>
+    <p class="text-xs font-medium text-base-content/60 flex items-center gap-1.5">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-rose-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      {{ event().venue }}
+    </p>
 
-        <p class="text-base-content/60">
-            {{ event().venue }}
-        </p>
-
-
-        <div class="card-actions justify-end items-center">
-            <span class="text-sm text-base-content/60">
-                @if(event().start){
-                {{ event().start | date:'mediumDate' }}
-                } @else {
-                Date to be announced
-                }
-            </span>
-        </div>
-
+    <div class="card-actions justify-between items-center mt-3 pt-3 border-t border-base-content/10">
+      <span class="text-[11px] font-mono font-semibold text-rose-600 bg-rose-600/10 px-2 py-0.5 rounded-sm">
+        @if(event().start){
+          {{ event().start | date:'mediumDate' }}
+        } @else {
+          TBA
+        }
+      </span>
+      <span class="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity text-rose-600">
+        Tickets →
+      </span>
     </div>
-
+  </div>
 </a>

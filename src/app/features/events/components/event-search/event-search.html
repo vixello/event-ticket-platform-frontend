@@ -1,10 +1,8 @@
-<div class="flex flex-col gap-3 sm:flex-row">
-
-  <div class="join w-full">
-    <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="emitSearch()" placeholder="Search events..."
-      class="input input-bordered join-item w-full" />
-
-    <button type="button" (click)="emitSearch()" class="btn btn-primary join-item">
+<div class="flex flex-col gap-3 sm:flex-row w-full">
+  <div class="join w-full shadow-sm">
+    <input type="text" [(ngModel)]="searchTerm" (keyup.enter)="emitSearch()" placeholder="Search concerts, venues, artists..."
+      class="input input-bordered join-item w-full bg-base-100/90 focus:border-rose-500 text-sm font-medium" />
+    <button type="button" (click)="emitSearch()" class="btn bg-rose-600 hover:bg-rose-700 text-white join-item border-none px-6 font-semibold">
       Search
     </button>
   </div>

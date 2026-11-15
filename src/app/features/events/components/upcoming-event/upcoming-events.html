@@ -1,0 +1,45 @@
+<div class="flex flex-col h-full">
+  <!-- Raw Full-Bleed Pictures Stack (Divided evenly into 3 rows to match carousel height) -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 lg:grid-rows-3 gap-3 h-full">
+    @for (item of events().slice(0, 3); track item.id) {
+      <a [routerLink]="['/events', item.id]"
+        class="group relative block overflow-hidden bg-zinc-900 h-full">
+        
+        <!-- Raw Edge-to-Edge Event Picture -->
+        <img [src]="item.imageUrl || '/assets/placeholder.jpg'" [alt]="item.name"
+          class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+
+        <!-- Bottom Scrim for Overlaid Text -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+        <!-- Top-Right Date Tag -->
+        <span class="absolute top-2 right-2 z-10 text-[10px] font-mono font-bold uppercase tracking-wider bg-rose-600 text-white px-2 py-0.5">
+          @if (item.start) {
+            {{ item.start | date:'d MMM' }}
+          } @else {
+            TBA
+          }
+        </span>
+
+        <!-- Overlaid Event Details -->
+        <div class="absolute inset-x-0 bottom-0 p-3 z-10 flex items-end justify-between gap-2">
+          <div class="min-w-0">
+            <p class="text-sm font-bold text-white leading-tight truncate group-hover:text-rose-300 transition-colors">
+              {{ item.name }}
+            </p>
+            <p class="text-[11px] text-white/75 truncate mt-0.5">
+              {{ item.venue || country() }}
+            </p>
+          </div>
+          <span class="text-xs font-bold text-white/80 group-hover:text-rose-400 group-hover:translate-x-0.5 transition-all shrink-0">
+            →
+          </span>
+        </div>
+      </a>
+    } @empty {
+      <div class="py-8 text-center text-xs text-base-content/60 border border-dashed border-base-content/15 flex items-center justify-center col-span-full">
+        No upcoming events in {{ country() }} right now.
+      </div>
+    }
+  </div>
+</div>

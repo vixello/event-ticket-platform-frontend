@@ -2,3 +2,9 @@
 
 @import 'tailwindcss';
 @plugin "daisyui";
+
+@theme {
+  --color-primary: #e11d48; /* Rose 600 */
+  --color-primary-focus: #be123c; /* Rose 700 */
+  --color-primary-content: #ffffff;
+}

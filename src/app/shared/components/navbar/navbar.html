@@ -1,20 +1,24 @@
-<div class="navbar bg-primary backdrop-blur-md border-b border-base-300 px-8">
+<div class="navbar bg-base-300/90 backdrop-blur-xl border-b border-base-content/10 text-base-content px-4 sm:px-8 sticky top-0 z-50 transition-all duration-300">
 
-  <!-- Logo -->
+  <!-- Logo with Rose-600 Brand Accent -->
   <div class="navbar-start">
-    <a routerLink="/events" class="text-xl font-bold tracking-tight flex items-center gap-2">
-      Eventmaster
+    <a routerLink="/events" class="text-xl font-black tracking-tight flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+      <span class="w-2.5 h-6 rounded-xs bg-rose-600 inline-block"></span>
+      <span>Event<span class="text-rose-600">master</span></span>
     </a>
   </div>
 
   <!-- Center Links -->
   <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal gap-1 px-1 font-medium text-sm">
+    <ul class="menu menu-horizontal gap-1 px-1 font-semibold text-sm">
       <li>
-        <a routerLink="/events" class="rounded-md hover:bg-base-200/60 active:bg-base-200">Events</a>
+        <a routerLink="/events" class="rounded-lg hover:bg-rose-600/10 hover:text-rose-600 transition-colors">Events</a>
       </li>
       <li>
-        <a class="rounded-md hover:bg-base-200/60 active:bg-base-200">About</a>
+        <a class="rounded-lg hover:bg-rose-600/10 hover:text-rose-600 transition-colors">Concerts</a>
+      </li>
+      <li>
+        <a class="rounded-lg hover:bg-rose-600/10 hover:text-rose-600 transition-colors">About</a>
       </li>
     </ul>
   </div>
@@ -23,53 +27,51 @@
   <div class="navbar-end gap-2">
 
     <!-- Cart Button -->
-    <a routerLink="/checkout" class="btn btn-ghost btn-sm btn-square rounded-md hover:bg-base-200">
+    <a routerLink="/checkout" class="btn btn-ghost btn-sm btn-square rounded-lg hover:bg-rose-600/10 hover:text-rose-600 transition-colors relative">
       <div class="indicator">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
         @if (totalItemsCount() > 0) {
-          <span class="badge badge-xs badge-primary indicator-item">{{ totalItemsCount() }}</span>
+          <span class="badge badge-xs bg-rose-600 border-none text-white font-bold indicator-item">{{ totalItemsCount() }}</span>
         }
       </div>
     </a>
 
     @if (!authService.isAuthenticated()) {
-
-      <a routerLink="/login" class="btn btn-ghost btn-sm font-medium rounded-md">
+      <a routerLink="/login" class="btn btn-ghost btn-sm font-semibold rounded-lg hover:bg-base-content/5">
         Log in
       </a>
-
-      <a routerLink="/register" class="btn btn-primary btn-sm font-medium rounded-md px-4 shadow-none">
+      <a routerLink="/register" class="btn btn-sm font-semibold rounded-lg px-4 bg-rose-600 hover:bg-rose-700 text-white border-none shadow-sm transition-all">
         Sign up
       </a>
-
     } @else {
-
+      <!-- User Dropdown -->
       <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-sm font-medium rounded-md gap-2">
-          <div class="w-6 h-6 rounded-md bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-sm font-semibold rounded-lg gap-2 hover:bg-base-content/5">
+          <div class="w-6 h-6 rounded-md bg-rose-600/15 text-rose-600 flex items-center justify-center font-bold text-xs ring-1 ring-rose-600/30">
             {{ authService.username?.charAt(0).toUpperCase() }}
           </div>
-          {{ authService.username }}
+          <span class="hidden sm:inline">{{ authService.username }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
 
-        <ul tabindex="0" class="menu dropdown-content bg-base-100 border border-base-300 rounded-lg z-10 w-48 p-1.5 shadow-lg mt-2 text-sm">
+        <ul tabindex="0" class="menu dropdown-content bg-base-100/95 text-base-content backdrop-blur-xl border border-base-content/10 rounded-xl z-50 w-52 p-2 shadow-2xl mt-2 text-sm">
+          <li class="menu-title px-3 py-1 text-xs opacity-50 uppercase tracking-wider">Account</li>
           <li>
-            <a [routerLink]="profileLink" class="rounded-md">{{profileLabel}}</a>
+            <a [routerLink]="profileLink" class="rounded-lg hover:bg-rose-600/10 hover:text-rose-600 transition-colors">{{profileLabel}}</a>
           </li>
-          <div class="divider my-1"></div>
+          <div class="divider my-1 border-base-content/10"></div>
           <li>
-            <button (click)="authService.logout()" class="rounded-md text-error hover:bg-error/10">
+            <button (click)="authService.logout()" class="rounded-lg text-error hover:bg-error/10 transition-colors">
               Logout
             </button>
           </li>
         </ul>
       </div>
-
     }
-
   </div>
-
 </div>

@@ -1,117 +1,174 @@
-<section class="relative min-h-screen bg-base-300 py-12 px-4 sm:px-6 lg:px-8">
+<section class="relative min-h-screen bg-base-300 pt-6 pb-20 px-4 sm:px-6 lg:px-8 overflow-x-clip">
 
-  <!-- Background Gradient (sits at z-0, pinned to top of section) -->
-  <div
-    class="absolute -top-1 inset-x-0 h-[32rem] pointer-events-none z-0 bg-[linear-gradient(to_bottom,var(--color-primary)_0%,color-mix(in_oklab,var(--color-primary)_70%,transparent)_25%,color-mix(in_oklab,var(--color-primary)_30%,transparent)_55%,color-mix(in_oklab,var(--color-primary)_8%,transparent)_80%,transparent_100%)]">
-  </div>
+  <!-- Subtle Rose Architectural Side Hairlines -->
+  <div class="hidden xl:block pointer-events-none fixed inset-y-0 left-6 w-[1px] bg-gradient-to-b from-rose-600/30 via-base-content/5 to-transparent z-0"></div>
+  <div class="hidden xl:block pointer-events-none fixed inset-y-0 right-6 w-[1px] bg-gradient-to-b from-rose-600/30 via-base-content/5 to-transparent z-0"></div>
 
-  <!-- HERO CONTAINER (Keep this open so the toolbar is INSIDE z-10) -->
-  <div class="relative w-full max-w-7xl mx-auto mb-12 z-10">
+  <!-- FIRST FOLD CONTAINER: Occupies full screen height so Discover is pushed below the fold -->
+  <div class="relative z-10 max-w-7xl mx-auto min-h-[calc(100vh-8rem)] flex flex-col justify-between mb-24">
 
-    <!-- Top Toolbar: Date Range Button + Search Bar aligned perfectly -->
-    <div class="flex flex-col sm:flex-row items-center gap-3 mb-4 mt-4 w-full max-w-3xl mx-auto justify-center">
+    <div>
+      <!-- TOP COMMAND BAR (Crisp rounded-lg edges) -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-base-100 p-2 rounded-lg border border-base-content/15 shadow-sm mb-8 max-w-4xl mx-auto">
 
-      <!-- SINGLE DATE RANGE BUTTON (Opens Modal) -->
-      <button type="button" (click)="dateModal.showModal()"
-        class="btn btn-outline border-base-300 bg-base-100 font-normal normal-case w-full sm:w-auto h-9.5 min-h-0 justify-between gap-3 px-4 shadow-sm shrink-0">
-        <div class="flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary shrink-0" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        <!-- DATE RANGE TRIGGER -->
+        <button type="button" (click)="dateModal.showModal()"
+          [class.border-rose-600]="dateFrom || dateTo"
+          [class.bg-rose-600/5]="dateFrom || dateTo"
+          class="group btn btn-ghost bg-base-200/70 hover:bg-base-200 border border-base-content/15 hover:border-rose-600 font-normal normal-case w-full sm:w-auto h-11 min-h-0 justify-between gap-3 px-3.5 rounded-md transition-all duration-200 cursor-pointer shrink-0">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-sm bg-rose-600/15 text-rose-600 group-hover:bg-rose-600 group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div class="flex flex-col items-start text-left leading-tight">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-base-content/60 group-hover:text-rose-600 transition-colors">
+                Date Range
+              </span>
+              <span class="text-xs font-bold text-base-content">
+                {{ dateFrom || 'Any date' }} — {{ dateTo || 'Any' }}
+              </span>
+            </div>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-base-content/50 group-hover:text-rose-600 transition-colors ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
           </svg>
-          <span class="text-xs text-base-content/70">Dates:</span>
-          <span class="text-xs font-semibold">
-            {{ dateFrom || 'Any' }} — {{ dateTo || 'Any' }}
+        </button>
+
+        <div class="hidden sm:block w-[1px] h-7 bg-base-content/15"></div>
+
+        <!-- SEARCH INPUT -->
+        <div class="w-full flex-1">
+          <app-event-search [searchTerm]="searchTerm" (search)="onSearch($event.toString())" />
+        </div>
+      </div>
+
+      <!-- HERO GRID: Increased height to [34rem] for immersive first fold -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-[auto_1fr] gap-6">
+
+        <!-- Left Header (Row 1, Col Span 8) -->
+        <div class="lg:col-span-8 flex items-center justify-between pb-2.5 border-b border-base-content/15">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-rose-600 inline-block"></span>
+            <h2 class="text-xs font-black uppercase tracking-wider text-base-content">
+              Featured Highlights
+            </h2>
+          </div>
+          <span class="text-[11px] font-mono uppercase tracking-wider text-base-content/50">
+            Spotlight
           </span>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 opacity-60" fill="none" viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
 
-      <!-- TOP SEARCH COMPONENT (Matches height) -->
-      <div class="w-full flex-1">
-        <app-event-search [searchTerm]="searchTerm" (search)="onSearch($event.toString())" />
+        <!-- Right Header (Row 1, Col Span 4) -->
+        <div class="lg:col-span-4 flex items-center justify-between pb-2.5 border-b border-base-content/15">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-4 bg-rose-600 inline-block"></span>
+            <h2 class="text-xs font-black uppercase tracking-wider text-base-content">
+              Upcoming in Poland
+            </h2>
+          </div>
+          <a href="#discoverSection" class="text-[11px] font-bold uppercase tracking-wider text-rose-600 hover:text-rose-700 transition-colors">
+            All →
+          </a>
+        </div>
+
+        <!-- Left Carousel (Row 2, Col Span 8, Increased height to 34rem) -->
+        <div class="lg:col-span-8 h-[34rem]">
+          <app-image-carousel class="block h-full"></app-image-carousel>
+        </div>
+
+        <!-- Right Upcoming Component (Row 2, Col Span 4, Increased height to 34rem) -->
+        <div class="lg:col-span-4 h-[34rem]">
+          <app-upcoming-events class="block h-full" [events]="events" country="Poland"></app-upcoming-events>
+        </div>
+
       </div>
     </div>
+
+    <!-- Subtle Scroll Down Indicator Prompt -->
+    <div class="hidden lg:flex justify-center pt-6">
+      <a href="#discoverSection" class="flex flex-col items-center gap-1.5 text-base-content/40 hover:text-rose-600 transition-colors group">
+        <span class="text-[10px] font-mono uppercase tracking-widest font-semibold">Scroll to discover</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 animate-bounce group-hover:text-rose-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </a>
+    </div>
+
   </div>
-  <!-- DAISYUI MODAL FOR DATE RANGE -->
+
+  <!-- DATE RANGE MODAL (Crisp rounded-lg) -->
   <dialog #dateModal class="modal">
-    <div class="modal-box bg-base-100 border border-base-300 shadow-xl max-w-md rounded-xl">
+    <div class="modal-box bg-base-100 border border-base-content/15 shadow-2xl max-w-md rounded-lg">
       <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
-        <span class="w-2 h-2 rounded-sm bg-primary inline-block"></span>
+        <span class="w-2.5 h-2.5 rounded-xs bg-rose-600 inline-block"></span>
         Select Date Range
       </h3>
-
       <div class="space-y-4 py-2">
         <div class="form-control">
           <label class="label text-xs font-medium text-base-content/70">From Date</label>
           <input name="dateFrom" type="date" [(ngModel)]="dateFrom"
-            class="input input-bordered w-full text-sm font-semibold" />
+            class="input input-bordered rounded-md w-full text-sm font-semibold bg-base-200/50" />
         </div>
-
         <div class="form-control">
           <label class="label text-xs font-medium text-base-content/70">To Date</label>
           <input name="dateTo" type="date" [(ngModel)]="dateTo"
-            class="input input-bordered w-full text-sm font-semibold" />
+            class="input input-bordered rounded-md w-full text-sm font-semibold bg-base-200/50" />
         </div>
       </div>
-
       <div class="modal-action flex justify-between items-center mt-6">
-        <button type="button" class="btn btn-ghost btn-sm text-error" (click)="clearDates(); dateModal.close()">
+        <button type="button" class="btn btn-ghost btn-sm rounded-md text-error hover:bg-error/10" (click)="clearDates(); dateModal.close()">
           Clear Dates
         </button>
         <div class="flex gap-2">
-          <button type="button" class="btn btn-sm btn-outline" (click)="dateModal.close()">Cancel</button>
-          <button type="button" class="btn btn-sm btn-primary px-5" (click)="applyDates(dateModal)">Apply
-            Filter</button>
+          <button type="button" class="btn btn-sm btn-outline rounded-md border-base-content/20" (click)="dateModal.close()">Cancel</button>
+          <button type="button" class="btn btn-sm rounded-md bg-rose-600 hover:bg-rose-700 text-white px-5 border-none shadow-sm" (click)="applyDates(dateModal)">Apply Filter</button>
         </div>
       </div>
     </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
+    <form method="dialog" class="modal-backdrop"><button>close</button></form>
   </dialog>
 
-  <app-image-carousel></app-image-carousel>
+  <!-- SECOND FOLD: DISCOVERY SECTION -->
+  <div class="max-w-7xl mx-auto" #discoverSection >
+    <div id="discoverSection" class="pt-12 border-t border-base-content/10">
+      <div class="mb-6 pb-5 border-b border-base-content/15 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="border-l-4 border-rose-600 pl-4">
+          <h1 class="text-3xl font-black tracking-tight text-base-content">
+            Discover Events
+          </h1>
+          <p class="mt-1 text-sm text-base-content/70">
+            Concerts, festivals, sports, and live experiences happening near you.
+          </p>
+        </div>
 
-  <div class="mx-auto max-w-7xl">
-    <div #discoverSection class="mx-auto max-w-7xl pt-4">
-      <!-- Page heading -->
-      <div class="mb-10 pb-6 border-b border-base-content/10">
-        <p class="mb-2 text-4xl font-semibold uppercase tracking-wider text-primary">
-          Discover events
-        </p>
-        <p class="mt-3 max-w-2xl text-base text-base-content/70">
-          Discover concerts, conferences, festivals and other events happening near you.
-        </p>
+        <span class="text-xs font-medium text-base-content/60">
+          Showing <strong class="text-base-content">{{ events.length }}</strong> events
+        </span>
       </div>
 
-      <!-- Search (Secondary if needed, or keep your main grid layout) -->
+      <!-- SEARCH BAR UNDER DISCOVER EVENTS -->
       <div class="mb-8">
-        <app-event-search [searchTerm]="searchTerm" (search)="onSearch($event)" />
+        <app-event-search [searchTerm]="searchTerm" (search)="onSearch($event.toString())" />
       </div>
 
-      <div class="grid gap-8 lg:grid-cols-[240px_1fr]">
-
-        <!-- Filters -->
-        <aside>
+      <div class="grid gap-8 lg:grid-cols-[250px_1fr] items-start">
+        <!-- Sticky Filters -->
+        <aside class="lg:sticky lg:top-20 bg-base-100 p-5 rounded-lg border border-base-content/15 shadow-sm">
           <app-event-filters [dateFrom]="dateFrom" [dateTo]="dateTo" (filterChange)="onSidebarFilterChange($event)" />
         </aside>
 
-        <!-- Events -->
+        <!-- Events Grid -->
         <div class="flex flex-col gap-8">
           <app-event-grid [events]="events" />
-
-          <!-- Pagination Controls -->
           @if (totalPages > 1) {
-          <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="fetchEvents($event)">
-          </app-pagination>
+            <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="fetchEvents($event)"></app-pagination>
           }
         </div>
       </div>
     </div>
   </div>
+
 </section>
