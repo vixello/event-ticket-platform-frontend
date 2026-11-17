@@ -1,35 +1,42 @@
-import { Component, OnInit, PLATFORM_ID, inject, ChangeDetectorRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { NgClass, isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+
+interface EventItem {
+  id: string;
+  title: string;
+  startDate: string;
+  location: string;
+}
 
 @Component({
   selector: 'app-staff-dashboard',
-  imports: [RouterLink, NgClass],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './staff-dashboard.html',
-  styleUrl: './staff-dashboard.css'
+  styleUrls: ['./staff-dashboard.css']
 })
-
 export class StaffDashboard implements OnInit {
-  staffMembers: any[] = [];
-  isLoading = true;
+  staffingEvents: EventItem[] = [];
+  loading = true;
+  errorMessage = '';
 
-  private platformId = inject(PLATFORM_ID);
-  private cdr = inject(ChangeDetectorRef);
+  // Update with your actual backend endpoint mapping to staffingEvents
+  private apiUrl = '/api/staff/events';
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadStaff();
-    }
-  }
-
-  loadStaff(): void {
-    setTimeout(() => {
-      this.staffMembers = [
-        { id: '1', name: 'John Doe', role: 'MANAGER', email: 'john@example.com', status: 'ACTIVE' },
-        { id: '2', name: 'Jane Smith', role: 'SUPPORT', email: 'jane@example.com', status: 'PENDING' }
-      ];
-      this.isLoading = false;
-      this.cdr.detectChanges();
-    }, 300);
+    this.http.get<EventItem[]>(this.apiUrl).subscribe({
+      next: (data) => {
+        this.staffingEvents = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Failed to load your assigned shifts. Please try again later.';
+        this.loading = false;
+        console.error(err);
+      }
+    });
   }
 }
