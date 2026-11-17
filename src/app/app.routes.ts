@@ -65,6 +65,13 @@ export const routes: Routes = [
             import('./features/attendee/pages/attendee-profile/attendee-profile')
                 .then((m) => m.AttendeeProfile),
     },
+        {
+        path: 'staff',
+        canActivate: [attendeeGuard],
+        loadComponent: () =>
+            import('./features/staff/pages/staff-dashboard/staff-dashboard')
+                .then((m) => m.StaffDashboard),
+    },
     {
         path: 'published-events/:eventId/ticket-selection',
         canActivate: [uuidGuard],

@@ -18,6 +18,8 @@ export class Navbar {
         return "/organizer";
       case this.authService.hasRole("ROLE_ATTENDEE"):
         return "/profile";
+      case this.authService.hasRole("ROLE_STAFF"):
+        return "/staff";
       default:
         return "/";
     }
