@@ -58,6 +58,11 @@ export class AuthService {
             'http://localhost:8081/oauth2/authorization/keycloak';
     }
 
+    register(): void {
+        window.location.href =
+            'http://localhost:8081/oauth2/authorization/keycloak';
+    }
+    
     async waitUntilInitialized(): Promise<void> {
         while (!this.initialized) {
             await new Promise((resolve) => setTimeout(resolve, 50));
