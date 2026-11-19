@@ -3,7 +3,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { AuthService } from './features/auth/auth.service';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
 import { credentialsInterceptor } from './features/auth/auth.credentials-interceptor';
 
 export const appConfig: ApplicationConfig = {
@@ -16,7 +16,11 @@ export const appConfig: ApplicationConfig = {
       return authService.init();
     }),
     provideHttpClient(
-       withInterceptors([credentialsInterceptor])
+       withInterceptors([credentialsInterceptor]),
+       withXsrfConfiguration({
+          cookieName: 'XSRF-TOKEN',
+          headerName:'X_XSRF_TOKEN',
+       })
     )
   ]
 };
