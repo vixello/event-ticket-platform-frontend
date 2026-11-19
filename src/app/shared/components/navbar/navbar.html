@@ -51,7 +51,7 @@
       <div class="dropdown dropdown-end">
         <div tabindex="0" role="button" class="btn btn-ghost btn-sm font-semibold rounded-lg gap-2 hover:bg-base-content/5">
           <div class="w-6 h-6 rounded-md bg-rose-600/15 text-rose-600 flex items-center justify-center font-bold text-xs ring-1 ring-rose-600/30">
-            {{ authService.username?.charAt(0).toUpperCase() }}
+            {{ authService.username?.toString().charAt(0).toUpperCase() }}
           </div>
           <span class="hidden sm:inline">{{ authService.username }}</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,4 +1,86 @@
-import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
+
+import { Injectable, inject, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+
+interface AuthUser {
+    authenticated: boolean;
+    username: string;
+    roles: string[];
+}
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+
+    private http = inject(HttpClient);
+
+    private readonly apiUrl = 'http://localhost:8081/api/v1/auth';
+
+    private currentUser = signal<AuthUser | null>(null);
+
+    initialized = signal(false);
+
+    isAuthenticated = computed(
+        () => this.currentUser()?.authenticated ?? false
+    );
+
+    roles = computed(
+        () => this.currentUser()?.roles ?? []
+    );
+
+    username = computed(
+        () => this.currentUser()?.username ?? null
+    );
+
+    hasRole(role: string): boolean {
+        return this.roles().includes(role);
+    }
+
+    async init(): Promise<void> {
+        try {
+            const user = await firstValueFrom(
+                this.http.get<AuthUser>(
+                    `${this.apiUrl}/current-user`,
+                    { withCredentials: true }
+                )
+            );
+
+            this.currentUser.set(user);
+        } catch {
+            this.currentUser.set(null);
+        } finally {
+            this.initialized.set(true);
+        }
+    }
+
+    login(): void {
+        window.location.href =
+            'http://localhost:8081/oauth2/authorization/keycloak';
+    }
+
+    async waitUntilInitialized(): Promise<void> {
+        while (!this.initialized) {
+            await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+    }
+
+    async logout(): Promise<void> {
+        // Add CSRF handling to this request as discussed below.
+        await firstValueFrom(
+            this.http.post(
+                `${this.apiUrl}/logout`,
+                {},
+                { withCredentials: true }
+            )
+        );
+
+        this.currentUser.set(null);
+        window.location.href = '/';
+    }
+}
+
+
+/* import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
 import Keycloak from 'keycloak-js';
 import { keycloakConfig } from './auth.config';
 import { isPlatformBrowser } from '@angular/common';
@@ -100,4 +182,4 @@ export class AuthService {
     get userId(): string | undefined {
         return this.keycloak.subject;
     }
-}
+} */

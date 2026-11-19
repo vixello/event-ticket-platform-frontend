@@ -31,6 +31,8 @@ export class Navbar {
         return "Organizer Dashboard";
       case this.authService.hasRole("ROLE_ATTENDEE"):
         return "Profile";
+      case this.authService.hasRole('ROLE_STAFF'):
+        return 'Staff Dashboard';
       default:
         return "/";
     }
@@ -39,15 +41,15 @@ export class Navbar {
   totalItemsCount = computed(() => {
     const pendingCart = this.localStorage.getItem('pending_cart');
 
-    if(!pendingCart) return 0;
+    if (!pendingCart) return 0;
 
-    try{
+    try {
       const cart = JSON.parse(pendingCart);
-      if(!cart.selectedTickets) return 0;
+      if (!cart.selectedTickets) return 0;
 
       return cart.selectedTickets.reduce((acc: number, item: any) => acc + item.quantity, 0)
     }
-    catch{
+    catch {
       return 0;
     }
   })

@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { AuthService } from './features/auth/auth.service';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptor } from './features/auth/auth.interceptor';
+import { credentialsInterceptor } from './features/auth/auth.credentials-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,8 +16,7 @@ export const appConfig: ApplicationConfig = {
       return authService.init();
     }),
     provideHttpClient(
-        withInterceptors([authInterceptor])
+       withInterceptors([credentialsInterceptor])
     )
-    
   ]
 };
